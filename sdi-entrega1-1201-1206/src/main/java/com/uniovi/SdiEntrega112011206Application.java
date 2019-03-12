@@ -7,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SdiEntrega112011206Application {
 //pedo
 	public static void main(String[] args) {
-		
 		SpringApplication.run(SdiEntrega112011206Application.class, args);
 	}
-
 }
