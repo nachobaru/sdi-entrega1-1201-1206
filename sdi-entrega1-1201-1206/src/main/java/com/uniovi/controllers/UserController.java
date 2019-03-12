@@ -45,6 +45,13 @@ public class UserController {
 		userService.deleteUser(id);
 		return "redirect:/user/list";
 	}
+	
+	
+	@RequestMapping("/user/list")
+	public String getListado(Model model) {
+		model.addAttribute("usersList", userService.getUsers());
+		return "/user/list";
+	}
 
 	@RequestMapping(value = "/user/edit/{id}")
 	public String getEdit(Model model, @PathVariable Long id) {
