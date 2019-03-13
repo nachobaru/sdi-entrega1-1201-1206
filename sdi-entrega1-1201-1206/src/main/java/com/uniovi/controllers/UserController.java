@@ -1,6 +1,5 @@
 package com.uniovi.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,6 @@ public class UserController {
 	@Autowired
 	private RoleService roleService;
 
-
 	@RequestMapping(value = "/user/add", method = RequestMethod.POST)
 	public String setUser(@ModelAttribute User user) {
 		userService.addUser(user);
@@ -51,8 +49,7 @@ public class UserController {
 //		userService.deleteUser(id);
 //		return "redirect:/user/list";
 //	}
-	
-	
+
 	@RequestMapping("/user/list")
 	public String getListado(Model model) {
 		model.addAttribute("usersList", userService.getUsers());
@@ -94,7 +91,16 @@ public class UserController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
 		return "login";
-	}@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
+	}
+	
+	
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public String searchProduct(Model model) {
+		return "search";
+	}
+
+
+	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
@@ -102,17 +108,15 @@ public class UserController {
 		model.addAttribute("articlesList", activeUser.getArticles());
 		return "home";
 	}
-	
-	//Prueba para eliminar multiples ususarios
+
+	// Prueba para eliminar multiples ususarios
 	@RequestMapping(method = RequestMethod.POST)
 	public String deleteMultipleUsers(usersToDeleteTMP tmp) {
-		List<User>ListId=tmp.getUsers();
-		for(User user: ListId) {
+		List<User> ListId = tmp.getUsers();
+		for (User user : ListId) {
 			userService.deleteUser(user.getId());
-		}	
+		}
 		return "/user/list";
 	}
-	
-
 
 }
