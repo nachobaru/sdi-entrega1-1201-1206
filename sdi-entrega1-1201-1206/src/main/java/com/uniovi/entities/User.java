@@ -20,6 +20,7 @@ public class User {
 	private String lastName;
 	private String role;
 	private String password;
+	private double pocket =100;
 	@Transient 
 	private String passwordConfirm;
 	@Column(unique = true)
@@ -99,8 +100,21 @@ public class User {
 	public Set<Article> getArticles() {
 		return articles;
 	}
+
 	public void setArticles(Set<Article> articles) {
 		this.articles = articles;
+	}
+	public double getPocket() {
+		return pocket;
+	}
+	public void setPocket(double pocket) {
+		this.pocket = pocket;
+	}
+	public void addMoney (double plus) {
+		setPocket(getPocket()+plus);
+	}
+	public void subtractMoney(double amount) {
+		setPocket(getPocket()-amount);
 	}
 	
 	
