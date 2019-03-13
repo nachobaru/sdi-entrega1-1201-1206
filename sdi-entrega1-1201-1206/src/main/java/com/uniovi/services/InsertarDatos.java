@@ -25,11 +25,13 @@ public class InsertarDatos {
 		user1.setPassword("11111");
 		user1.setRole("ROLE_STANDARD");
 		
-		Article art1= new Article((long)1, "polla", "pene",10);
-		Article art2 =new Article((long)2, "chocho", "coño",1231450);
-		art1.setOwner(user1);
-		art2.setOwner(user1);
+		//Article art1= new Article((long)1, "polla", "pene",10);
+	//	Article art2 =new Article((long)2, "chocho", "coño",1231450);
 		
+		//user1.getArticles().add(art1);
+		//user1.getArticles().add(art1);
+		//art1.setOwner(user1);
+		//art2.setOwner(user1);
 		userService.addUser(userAdmin);
 		userService.addUser(user1);
 	}
