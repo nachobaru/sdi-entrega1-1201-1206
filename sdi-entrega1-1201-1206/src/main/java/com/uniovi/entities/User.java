@@ -1,5 +1,6 @@
 package com.uniovi.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -30,6 +31,7 @@ public class User {
 		this.email=email;
 		this.name = name;
 		this.lastName = lastName;
+		articles= new HashSet<Article>();
 	}
 	public User() {
 	}

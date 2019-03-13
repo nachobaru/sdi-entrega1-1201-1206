@@ -32,7 +32,9 @@ public class Article {
 		setDate(today);
 		this.price = price;
 	}
-
+public Article() {
+	
+}
 	public Long getId() {
 		return id;
 	}

@@ -10,9 +10,12 @@ import com.uniovi.repositories.ArticleRepository;
 public class ArticleService {
 	@Autowired
 	private ArticleRepository articleRepository;
-	
-	
-	public void addArticle(Article  article) {
+
+	public void addArticle(Article article) {
 		articleRepository.save(article);
+	}
+
+	public void deleteArticle(Long id) {
+		articleRepository.deleteById(id);
 	}
 }
