@@ -28,4 +28,10 @@ public class ArticleService {
 		marks = ArticleRepository.searchByString(searchText);
 		return marks;
 	}
+	
+	public static List<Article> searchAll (){
+		List<Article> marks = new ArrayList<Article>();
+		marks = ArticleRepository.searchAll();
+		return marks;
+	}
 }

@@ -25,9 +25,9 @@ public class ArticleController {
 	private UserService userService;
 
 	@RequestMapping(value = "/article/add", method = RequestMethod.POST)
-	public String setArticle(@ModelAttribute Article article,Principal principal) {
-		String email=principal.getName();
-		User user= userService.getUserByEmail(email);
+	public String setArticle(@ModelAttribute Article article, Principal principal) {
+		String email = principal.getName();
+		User user = userService.getUserByEmail(email);
 		user.getArticles().add(article);
 		article.setOwner(user);
 		articleService.addArticle(article);
@@ -40,22 +40,28 @@ public class ArticleController {
 		return "article/add";
 	}
 
-
 	@RequestMapping("/article/delete/{id}")
 	public String deleteMark(@PathVariable Long id) {
 		articleService.deleteArticle(id);
 		return "redirect:/home";
 	}
 
-	@RequestMapping("/article/list")
-	public String getList(Model model, Principal principal,
-			@RequestParam(value = "", required=false) String searchText){
-		
+	@RequestMapping("/article/search")
+	public String getSearch(Model model, Principal principal,
+			@RequestParam(value = "", required = false) String searchText) {
+		searchText = "%" + searchText + "%";
 		if (searchText != null && !searchText.isEmpty()) {
-			model.addAttribute("markList",
-					ArticleService.searchByString(searchText) );
-		} 
-		return "article/list";
+			model.addAttribute("articlesList", ArticleService.searchByString(searchText));
+		}
+		return "/article/list";
+	}
+
+	@RequestMapping("/article/list")
+	public String getList(Model model, Principal principal) {
+
+		model.addAttribute("articlesList", ArticleService.searchAll());
+
+		return "/article/list";
 	}
 
 }

@@ -12,12 +12,14 @@
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
 				<li><a href="/">Home</a></li>
-				<li id="article-menu" class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="#"> Gestion de productos <span
-						class="caret"></span>
+				<li id="article-menu" class="dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown" href="#">
+						Gestion de productos <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
 						<li sec:authorize="hasRole('ROLE_STANDARD')"><a
+							href="/article/list">Agregar Producto</a></li>
+						<li sec:authorize="hasRole('ROLE_ADMIN')"><a
 							href="/article/add">Agregar Producto</a></li>
 						<li><a href="/search">Comprar Producto</a></li>
 					</ul></li>

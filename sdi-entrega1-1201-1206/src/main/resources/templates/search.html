@@ -21,7 +21,7 @@
 	<div class="container">
 		<h2>Productos</h2>
 
-		<form class="navbar-form" action="/article/list">
+		<form class="navbar-form" action="article/list">
 			<div class="form-group">
 				<input name="searchText" type="text" class="form-control" size="50"
 					placeholder="Buscar por descripción o nombre del alumno">
@@ -43,25 +43,28 @@
 	 /*]]>*/
 		</script>
 		<div class="table-responsive">
-			<table class="table table-hover" th:fragment="tableMarks"
-				id="tableMarks">
+			<table class="table table-hover">
 				<thead>
 					<tr>
+						<th class="col-md-1">Titulo</th>
+						<th>DescripciÃ³n</th>
+						<th>Precio</th>
 						<th class="col-md-1"></th>
-						<th>Descripción</th>
+						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="article : ${articleList}">
-						<td th:text="${article.id}">1</td>
-						<td th:text="${article.description}"></td>
-						<td th:text="${article.title}"></td>
+					<tr th:each="article : ${articlesList}">
+						<td th:text="${article.title}">titulo</td>
+						<td th:text="${article.description}">Descripcion</td>
+						<td th:text="${article.price}">Precio</td>
+						<td><a th:href="${'/article/delete/' + article.id}">Eliminar</a></td>
 					</tr>
 				</tbody>
-
 			</table>
 		</div>
+
 		<footer th:replace="fragments/pagination" />
 
 	</div>
