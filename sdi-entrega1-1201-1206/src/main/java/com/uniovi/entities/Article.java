@@ -78,6 +78,14 @@ public class Article {
 		return "Article [id=" + id + ", title=" + title + ", description=" + description + ", date=" + date + ", price="
 				+ price + "]";
 	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
 	
 	
 	
