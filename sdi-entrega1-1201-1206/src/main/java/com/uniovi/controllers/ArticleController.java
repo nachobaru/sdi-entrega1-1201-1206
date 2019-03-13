@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.Article;
 import com.uniovi.entities.User;
@@ -22,7 +23,7 @@ public class ArticleController {
 	private ArticleService articleService;
 	@Autowired
 	private UserService userService;
-	
+
 	@RequestMapping(value = "/article/add", method = RequestMethod.POST)
 	public String setArticle(@ModelAttribute Article article,Principal principal) {
 		String email=principal.getName();
@@ -32,17 +33,29 @@ public class ArticleController {
 		articleService.addArticle(article);
 		return "redirect:/home";
 	}
-	
+
 	@RequestMapping(value = "/article/add")
 	public String getArticle(Model model) {
 		model.addAttribute("usersList", userService.getUsers());
 		return "article/add";
 	}
-	
-	
+
+
 	@RequestMapping("/article/delete/{id}")
 	public String deleteMark(@PathVariable Long id) {
 		articleService.deleteArticle(id);
 		return "redirect:/home";
 	}
+
+	@RequestMapping("/article/list")
+	public String getList(Model model, Principal principal,
+			@RequestParam(value = "", required=false) String searchText){
+		
+		if (searchText != null && !searchText.isEmpty()) {
+			model.addAttribute("markList",
+					ArticleService.searchByString(searchText) );
+		} 
+		return "article/list";
+	}
+
 }

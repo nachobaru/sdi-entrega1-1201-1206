@@ -1,9 +1,13 @@
 package com.uniovi.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Article;
+import com.uniovi.entities.User;
 import com.uniovi.repositories.ArticleRepository;
 
 @Service
@@ -17,5 +21,11 @@ public class ArticleService {
 
 	public void deleteArticle(Long id) {
 		articleRepository.deleteById(id);
+	}
+
+	public static List<Article> searchByString (String searchText){
+		List<Article> marks = new ArrayList<Article>();
+		marks = ArticleRepository.searchByString(searchText);
+		return marks;
 	}
 }
