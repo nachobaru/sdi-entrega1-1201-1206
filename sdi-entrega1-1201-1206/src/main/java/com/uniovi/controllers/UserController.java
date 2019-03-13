@@ -44,11 +44,11 @@ public class UserController {
 		return "user/details";
 	}
 
-	@RequestMapping("/user/delete/{id}")
-	public String delete(@PathVariable Long id) {
-		userService.deleteUser(id);
-		return "redirect:/user/list";
-	}
+//	@RequestMapping("/user/delete/{id}")
+//	public String delete(@PathVariable Long id) {
+//		userService.deleteUser(id);
+//		return "redirect:/user/list";
+//	}
 	
 	
 	@RequestMapping("/user/list")
@@ -101,6 +101,9 @@ public class UserController {
 		for(User user: ListId) {
 			userService.deleteUser(user.getId());
 		}	
-		return "redirect:/user/list";
+		return "/user/list";
 	}
+	
+
+
 }
