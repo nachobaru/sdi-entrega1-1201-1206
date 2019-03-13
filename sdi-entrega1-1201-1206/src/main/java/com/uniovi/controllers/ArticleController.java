@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -29,12 +30,19 @@ public class ArticleController {
 		user.getArticles().add(article);
 		article.setOwner(user);
 		articleService.addArticle(article);
-		return "redirect:/article/list";
+		return "redirect:/home";
 	}
 	
 	@RequestMapping(value = "/article/add")
 	public String getArticle(Model model) {
 		model.addAttribute("usersList", userService.getUsers());
 		return "article/add";
+	}
+	
+	
+	@RequestMapping("/article/delete/{id}")
+	public String deleteMark(@PathVariable Long id) {
+		articleService.deleteArticle(id);
+		return "redirect:/home";
 	}
 }
