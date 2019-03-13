@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.uniovi.entities.User;
+import com.uniovi.extra.usersToDeleteTMP;
 import com.uniovi.services.RoleService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UserService;
@@ -94,10 +95,11 @@ public class UserController {
 	}
 	
 	//Prueba para eliminar multiples ususarios
-	@RequestMapping("/user/delete/")
-	public String deleteMultipleUsers(@PathVariable List<Long> ListId) {
-		for(Long id: ListId) {
-			userService.deleteUser(id);
+	@RequestMapping(method = RequestMethod.POST)
+	public String deleteMultipleUsers(usersToDeleteTMP tmp) {
+		List<User>ListId=tmp.getUsers();
+		for(User user: ListId) {
+			userService.deleteUser(user.getId());
 		}	
 		return "redirect:/user/list";
 	}
