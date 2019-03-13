@@ -2,6 +2,7 @@
 <html lang="en">
 <head th:replace="fragments/head" />
 <body>
+	<<<<<<< HEAD
 	<!-- Barra de Navegación superior -->
 	<nav th:replace="fragments/nav" />
 	<div class="container">
@@ -28,17 +29,48 @@
 						<td th:text="${user.email}">Email</td>
 						<td th:text="${user.name}">Nombre del alumno</td>
 						<td th:text="${user.lastName}">Apellidos del alumno</td>
-						<td><input type="checkbox" th:field=*{eliminar} th:value="${user.id}"> Eliminar alumno<br></td>
+						<td><input type="checkbox" th:field=*{eliminar}
+							th:value="${user.id}"> Eliminar alumno<br></td>
 						<!--  <td><a th:href="${'/user/details/' + user.id}">detalles</a></td>
+=======
+<!-- Barra de Navegación superior -->
+						<nav th:replace="fragments/nav" />
+						<div class="container">
+							<h2>Usuarios</h2>
+							<p>Los usuarios que actualmente figuran en el sistema son los
+								siguientes:</p>
+							<div class="table-responsive">
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th>Email</th>
+											<th>Nombre</th>
+											<th>Apellidos</th>
+											<th class="col-md-1"></th>
+											<th class="col-md-1"></th>
+											<th class="col-md-1"></th>
+											<th class="col-md-1"></th>
+											<th class="col-md-1"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="user : ${usersList}">
+											<td th:text="${user.email}">Email</td>
+											<td th:text="${user.name}">Nombre del alumno</td>
+											<td th:text="${user.lastName}">Apellidos del alumno</td>
+											<td><input type="checkbox" name="seleccion usuario"
+												th:checked="${myBooleanVariable}" /></td>
+											<!--  <td><a th:href="${'/user/details/' + user.id}">detalles</a></td>
+>>>>>>> branch 'IgnacioBaruque' of https://github.com/nachobaru/sdi-entrega1-1201-1206.git
  <td><a th:href="${'/user/edit/' + user.id}">modificar</a></td>
  <td><a th:href="${'/user/delete/' + user.id}">eliminar</a></td>-->
 
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<footer th:replace="fragments/footer" />
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<footer th:replace="fragments/footer" />
 </body>
 </html>
 
