@@ -1,5 +1,8 @@
 package com.uniovi.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,5 +91,14 @@ public class UserController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
 		return "login";
+	}
+	
+	//Prueba para eliminar multiples ususarios
+	@RequestMapping("/user/delete/")
+	public String deleteMultipleUsers(@PathVariable List<Long> ListId) {
+		for(Long id: ListId) {
+			userService.deleteUser(id);
+		}	
+		return "redirect:/user/list";
 	}
 }
