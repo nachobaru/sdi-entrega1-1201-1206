@@ -14,23 +14,23 @@
 				<li><a href="/">Home</a></li>
 				<li id="article-menu" class="dropdown"><a
 					class="dropdown-toggle" data-toggle="dropdown" href="#">
-						Gestion de productos <span class="caret"></span>
+						<span th:text="#{artMgmt.nav}">Gestion de Productos</span> <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
 						<li sec:authorize="hasRole('ROLE_STANDARD')"><a
-							href="/article/add">Agregar Producto</a></li>
+							href="/article/add"><span th:text="#{addArt.nav}">Agregar Producto</span></a></li>
 						<li sec:authorize="hasRole('ROLE_ADMIN')"><a
-							href="/article/add">Agregar Producto</a></li>
-						<li><a href="/search">Comprar Producto</a></li>
+							href="/article/add"><span th:text="#{addArt.nav}">Agregar Producto</span></a></li>
+						<li><a href="/search"><span th:text="#{buyArt.nav}">Comprar Producto</span></a></li>
 					</ul></li>
 				<li id="users-menu" class="dropdown"
 					sec:authorize="hasRole('ROLE_ADMIN')"><a
 					class="dropdown-toggle" data-toggle="dropdown" href="#">
-						Gestion de Usuarios <span class="caret"></span>
+						<span th:text="#{userMgmt.nav}">Gestion de Usuarios</span><span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="/signup">Agregar usuario</a></li>
-						<li><a href="/user/list">Ver Usuarios</a></li>
+						<li><a href="/signup"><span th:text="#{addUser.nav}">Agregar Usuario</span></a></li>
+						<li><a href="/user/list"><span th:text="#{seeUsers.nav}">Ver Usuarios</span></a></li>
 					</ul></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
@@ -79,7 +79,7 @@
 						class="glyphicon glyphicon-log-in"></span> Identificate
 				</a></li>
 				<li sec:authorize="isAuthenticated()"><a href="/logout"> <span
-						class="glyphicon glyphicon-log-out"></span> Desconectar
+						class="glyphicon glyphicon-log-out"></span> <span th:text="#{logout.message}">Desconectar</span>
 				</a></li>
 
 			</ul>
