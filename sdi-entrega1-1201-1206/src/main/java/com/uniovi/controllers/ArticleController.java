@@ -53,7 +53,7 @@ public class ArticleController {
 		if (searchText != null && !searchText.isEmpty()) {
 			model.addAttribute("articlesList", ArticleService.searchByString(searchText));
 		}
-		return "/article/list";
+		return "redirect:/article/list";
 	}
 
 	@RequestMapping("/article/list")
