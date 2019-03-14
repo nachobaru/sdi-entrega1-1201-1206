@@ -13,24 +13,26 @@
 </head>
 <body>
 	<nav th:replace="fragments/nav" />
-	<h2><span th:text="#{ava.al}">Articulos propios: </span></h2>
+	<h2><span th:text="#{ava.al}">Articulos disponibles: </span></h2>
 	<div class="table-responsive">
 		<table class="table table-hover">
 			<thead>
 				<tr>
-					<th class="col-md-1"><span th:text="#{artTitle.home}">Titulo</span></th>
-					<th<span th:text="#{artDesc.home}">Descrpicion</span></th>
-					<th><span th:text="#{artPrice.home}">Precio</span></th>
-					<th class="col-md-1"></th>
-					<th class="col-md-1"></th>
-					<th class="col-md-1"></th>
+					<th>Email</th>
+							<th>Titulo</th>
+							<th>Descripcion</th>
+							<th>Precio</th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="article : ${articlesList}">
-					<td th:text="${article.title}"><span th:text="#{artTitle.home}">Titulo</span></td>
-					<td th:text="${article.description}"><span th:text="#{artDesc.home}">Descrpicion</span></td>
-					<td th:text="${article.price}"><span th:text="#{artPrice.home}">Precio</span></td>
+					<td th:text="${article.title}"></td>
+					<td th:text="${article.description}"></td>
+					<td th:text="${article.price}"></td>
 					<td><a th:href="${'/article/delete/' + article.id}"><span th:text="#{delArt.home}">Eliminar</span></a></a></td>
 				</tr>
 			</tbody>
