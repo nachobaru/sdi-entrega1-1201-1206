@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Article;
-import com.uniovi.entities.User;
 import com.uniovi.repositories.ArticleRepository;
 
 @Service
