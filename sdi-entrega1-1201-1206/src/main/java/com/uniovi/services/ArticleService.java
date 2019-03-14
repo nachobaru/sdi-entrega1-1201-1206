@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Article;
+import com.uniovi.entities.User;
 import com.uniovi.repositories.ArticleRepository;
 
 @Service
@@ -22,15 +23,15 @@ public class ArticleService {
 		articleRepository.deleteById(id);
 	}
 
-	public static List<Article> searchByString (String searchText){
+	public  List<Article> searchByString (String searchText){
 		List<Article> marks = new ArrayList<Article>();
-		marks = ArticleRepository.searchByString(searchText);
+		marks = articleRepository.searchByString(searchText);
 		return marks;
 	}
 	
-	public static List<Article> searchAll (){
+	public  List<Article> searchAll (User activeUser){
 		List<Article> marks = new ArrayList<Article>();
-		marks = ArticleRepository.searchAll();
+		marks = articleRepository.searchAll(activeUser);
 		return marks;
 	}
 }

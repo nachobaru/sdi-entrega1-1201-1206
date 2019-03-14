@@ -21,7 +21,7 @@
 							href="/article/add"><span th:text="#{addArt.nav}">Agregar Producto</span></a></li>
 						<li sec:authorize="hasRole('ROLE_USER')"><a
 							href="/article/add"><span th:text="#{addArt.nav}">Agregar Producto</span></a></li>
-						<li><a href="/search"><span th:text="#{buyArt.nav}">Comprar Producto</span></a></li>
+						<li><a href="/article/list"><span th:text="#{buyArt.nav}">Comprar Producto</span></a></li>
 					</ul></li>
 				<li id="users-menu" class="dropdown"
 					sec:authorize="hasRole('ROLE_ADMIN')"><a
