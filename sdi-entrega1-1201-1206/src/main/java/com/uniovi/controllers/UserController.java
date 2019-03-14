@@ -110,13 +110,13 @@ public class UserController {
 	}
 
 	// Prueba para eliminar multiples ususarios
-	@RequestMapping(method = RequestMethod.POST)
-	public String deleteMultipleUsers(usersToDeleteTMP tmp) {
-		List<User> ListId = tmp.getUsers();
-		for (User user : ListId) {
-			userService.deleteUser(user.getId());
-		}
-		return "/user/list";
+	@RequestMapping(value="/user/delete/", method = RequestMethod.POST)
+	public String deleteMultipleUsers(Model m) {
+	
+		
+			userService.deleteUser( m.getAttribute("id",User.getId());
+		
+		return "redirect:/user/list";
 	}
 
 }
