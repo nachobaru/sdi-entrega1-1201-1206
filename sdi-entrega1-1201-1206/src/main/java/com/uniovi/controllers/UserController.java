@@ -1,5 +1,8 @@
 package com.uniovi.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.User;
 import com.uniovi.services.RoleService;
@@ -124,10 +128,13 @@ public class UserController {
 	}
 
 	// Prueba para eliminar multiples ususarios
-	@RequestMapping(value="/user/delete/", method = RequestMethod.POST)
-	public String deleteMultipleUsers(Model m) {
-		//	userService.deleteUser( m.getAttribute("id",User.getId());
-		
+	@RequestMapping(value="/user/delete", method = RequestMethod.POST)
+	public String deleteMultipleUsers(@RequestParam (required = false) List<Long> listID) {
+		List<Long>aux= new ArrayList<Long>();
+		aux=listID;
+		for (int i = 0; i<aux.size();i++) {
+			userService.deleteUser(aux.get(i));
+		}
 		return "redirect:/user/list";
 	}
 

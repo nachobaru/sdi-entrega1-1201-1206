@@ -17,6 +17,4 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 		// TODO Auto-generated method stub
 	
 	
-		
-	
 }
