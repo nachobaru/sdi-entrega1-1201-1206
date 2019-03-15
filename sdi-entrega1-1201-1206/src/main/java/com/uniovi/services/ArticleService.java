@@ -1,9 +1,13 @@
 package com.uniovi.services;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Article;
@@ -23,9 +27,9 @@ public class ArticleService {
 		articleRepository.deleteById(id);
 	}
 
-	public  List<Article> searchByString (String searchText){
-		List<Article> marks = new ArrayList<Article>();
-		marks = articleRepository.searchByString(searchText);
+	public  Page<Article> searchByString (Pageable pageable, String searchText){
+		Page<Article> marks = new PageImpl<Article>(new LinkedList<Article>());
+		marks = articleRepository.searchByString(pageable, searchText);
 		return marks;
 	}
 	

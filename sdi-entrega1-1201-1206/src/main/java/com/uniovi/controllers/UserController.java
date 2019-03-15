@@ -1,7 +1,9 @@
 package com.uniovi.controllers;
 
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,10 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.User;
-import com.uniovi.extra.usersToDeleteTMP;
 import com.uniovi.services.RoleService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UserService;
+import com.uniovi.validators.AddArticleValidator;
+import com.uniovi.validators.LoginFormValidator;
 import com.uniovi.validators.SignUpFormValidator;
 
 @Controller
@@ -33,6 +36,12 @@ public class UserController {
 	private SignUpFormValidator signUpFormValidator;
 	@Autowired
 	private RoleService roleService;
+	@Autowired
+	private LoginFormValidator loginValidator;
+	
+	@Autowired 
+	private AddArticleValidator articleValidator;
+	
 
 	@RequestMapping(value = "/user/add", method = RequestMethod.POST)
 	public String setUser(@ModelAttribute User user) {
@@ -92,9 +101,18 @@ public class UserController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
+		model.addAttribute("user", new User());
 		return "login";
 	}
 	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login( @Validated User user, BindingResult result, Model model) {
+		loginValidator.validate(user,result);
+		if(result.hasErrors()) {
+			return "login";
+		}
+		return "login";
+	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String searchProduct(Model model) {
@@ -112,6 +130,7 @@ public class UserController {
 	}
 
 	// Prueba para eliminar multiples ususarios
+
 	@RequestMapping(value="/user/delete", method = RequestMethod.POST)
 	public String deleteMultipleUsers(@RequestParam (required = false) List<Long> listID) {
 		List<Long>aux= new ArrayList<Long>();
@@ -119,6 +138,7 @@ public class UserController {
 		for (int i = 0; i<aux.size();i++) {
 			userService.deleteUser(aux.get(i));
 		}
+
 		return "redirect:/user/list";
 	}
 

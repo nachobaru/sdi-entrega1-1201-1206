@@ -1,8 +1,12 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
+import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -48,14 +52,17 @@ public class ArticleController {
 		return "redirect:/home";
 	}
 
-	@RequestMapping("/article/search")
-	public String getSearch(Model model, Principal principal,
+	@RequestMapping("/search")
+	public String getSearch(Model model,Pageable pageable, Principal principal,
 			@RequestParam(value = "", required = false) String searchText) {
 		searchText = "%" + searchText + "%";
+		Page<Article> art= new PageImpl<Article>(new LinkedList<Article>());
 		if (searchText != null && !searchText.isEmpty()) {
-			model.addAttribute("articlesList", articleService.searchByString(searchText));
+			 art=articleService.searchByString(pageable,searchText);
 		}
-		return "redirect:/article/list";
+		model.addAttribute("articlesList", art.getContent());
+		model.addAttribute("page", art);
+		return "/search";
 	}
 
 	@RequestMapping("/article/list")
