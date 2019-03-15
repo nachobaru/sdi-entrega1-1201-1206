@@ -100,9 +100,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login( @Validated User user, BindingResult result,Model model) {
+	public String login( @Validated User user, BindingResult result, Model model) {
 		loginValidator.validate(user,result);
-		
 		if(result.hasErrors()) {
 			return "login";
 		}
@@ -127,8 +126,6 @@ public class UserController {
 	// Prueba para eliminar multiples ususarios
 	@RequestMapping(value="/user/delete/", method = RequestMethod.POST)
 	public String deleteMultipleUsers(Model m) {
-	
-		
 		//	userService.deleteUser( m.getAttribute("id",User.getId());
 		
 		return "redirect:/user/list";
