@@ -3,6 +3,8 @@ package com.uniovi.controllers;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,15 +53,17 @@ public class ArticleController {
 			@RequestParam(value = "", required = false) String searchText) {
 		searchText = "%" + searchText + "%";
 		if (searchText != null && !searchText.isEmpty()) {
-			model.addAttribute("articlesList", ArticleService.searchByString(searchText));
+			model.addAttribute("articlesList", articleService.searchByString(searchText));
 		}
-		return "/article/list";
+		return "redirect:/article/list";
 	}
 
 	@RequestMapping("/article/list")
 	public String getList(Model model, Principal principal) {
-
-		model.addAttribute("articlesList", ArticleService.searchAll());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User activeUser = userService.getUserByEmail(email);
+		model.addAttribute("articlesList", articleService.searchAll(activeUser));
 
 		return "/article/list";
 	}
