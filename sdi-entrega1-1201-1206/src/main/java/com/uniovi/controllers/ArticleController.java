@@ -52,27 +52,44 @@ public class ArticleController {
 		return "redirect:/home";
 	}
 
-	@RequestMapping("/search")
-	public String getSearch(Model model,Pageable pageable, Principal principal,
+	@RequestMapping(value="/article/list", method = RequestMethod.GET)
+	public String getSearch(Model model, Pageable pageable, Principal principal,
 			@RequestParam(value = "", required = false) String searchText) {
 		searchText = "%" + searchText + "%";
-		Page<Article> art= new PageImpl<Article>(new LinkedList<Article>());
+		Page<Article> art = new PageImpl<Article>(new LinkedList<Article>());
 		if (searchText != null && !searchText.isEmpty()) {
-			 art=articleService.searchByString(pageable,searchText);
+			art = articleService.searchByString(pageable, searchText);
+		}else {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String email = auth.getName();
+			User activeUser = userService.getUserByEmail(email);
+			art=articleService.searchAll(pageable, activeUser);
 		}
 		model.addAttribute("articlesList", art.getContent());
 		model.addAttribute("page", art);
-		return "/search";
+		return "/article/list";
 	}
 
-	@RequestMapping("/article/list")
-	public String getList(Model model, Principal principal) {
+	@RequestMapping("/article/list/update")
+	public String updateList(Model model,Pageable pageable, Principal principal) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = userService.getUserByEmail(email);
-		model.addAttribute("articlesList", articleService.searchAll(activeUser));
-
-		return "/article/list";
+		model.addAttribute("articlesList", articleService.searchAll(pageable, activeUser));
+		return "/article/list :: tableArticles";
 	}
+
+//	@RequestMapping(value="/article/list", method = RequestMethod.GET)
+//	public String getList(Model model,Pageable pageable, Principal principal) {
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		String email = auth.getName();
+//		User activeUser = userService.getUserByEmail(email);
+//		Page<Article> art = new PageImpl<Article>(new LinkedList<Article>());
+//		art=articleService.searchAll(pageable, activeUser);
+//		model.addAttribute("articlesList", art.getContent());
+//		model.addAttribute("page", art);
+//
+//		return "/article/list";
+//	}
 
 }

@@ -14,8 +14,8 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 	@Query("SELECT r FROM Article r WHERE (LOWER(r.title) LIKE LOWER(?1))")
 	Page<Article> searchByString(Pageable pageable, String seachtext);
 
-	@Query("SELECT r FROM Article r WHERE NOT (r.owner = ?1) ORDER BY r.id ASC ")
-	List<Article> searchAll(User activeUser);
+	@Query("SELECT r FROM Article r WHERE NOT (r.owner= ?1) ORDER BY r.id ASC ")
+	Page<Article> searchAll(Pageable pageable,Long user_id);
 		// TODO Auto-generated method stub
 	Page<Article> findAll(Pageable pageable);
 }

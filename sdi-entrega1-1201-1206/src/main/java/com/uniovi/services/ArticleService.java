@@ -1,8 +1,6 @@
 package com.uniovi.services;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,9 +31,10 @@ public class ArticleService {
 		return marks;
 	}
 	
-	public  List<Article> searchAll (User activeUser){
-		List<Article> marks = new ArrayList<Article>();
-		marks = articleRepository.searchAll(activeUser);
+	public  Page<Article> searchAll (Pageable pageable, User activeUser){
+		Page<Article> marks = new PageImpl<Article>(new LinkedList<Article>());
+		Long user_id=activeUser.getId();
+		marks = articleRepository.searchAll(pageable, user_id);
 		return marks;
 	}
 	

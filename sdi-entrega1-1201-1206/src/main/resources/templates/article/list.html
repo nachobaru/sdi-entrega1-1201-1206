@@ -14,15 +14,24 @@
 <body>
 	<nav th:replace="fragments/nav" />
 	<h2>
-		<span th:text="#{ava.al}">Articulos disponibles: </span>
+		<span th:text="#{ava.al}"> </span>
 	</h2>
+	<form class="navbar-form" action="/article/list">
+		<div class="form-group">
+			<input name="searchText" type="text" class="form-control" size="50"
+				placeholder="Buscar por descripción o nombre del alumno">
+		</div>
+		<button type="submit" class="btn btn-default">Buscar</button>
+	</form>
 	<div class="table-responsive">
-		<table class="table table-hover">
+		<table class="table table-hover" th:fragment="tableArticles" id="tableArticle">
 			<thead>
 				<tr>
 					<th>Titulo</th>
 					<th>Descripcion</th>
 					<th>Precio</th>
+					<th> Comprar</th>
+					<th class="col-md-1"></th>
 					<th class="col-md-1"></th>
 					<th class="col-md-1"></th>
 					<th class="col-md-1"></th>
@@ -33,6 +42,7 @@
 					<td th:text="${article.title}"></td>
 					<td th:text="${article.description}"></td>
 					<td th:text="${article.price}"></td>
+					<td><a th:href="${'/article/buy/' + article.id}"></a></td>
 				</tr>
 			</tbody>
 		</table>
