@@ -34,4 +34,12 @@ public class ArticleService {
 		marks = articleRepository.searchAll(activeUser);
 		return marks;
 	}
+	
+//	public void buy (User activeUser) {
+//		String email = principal.getName();
+//		User user = userService.getUserByEmail(email);
+//		user.getArticles().add(article);
+//		article.setOwner(user);
+//		articleService.addArticle(article);
+//	}
 }
