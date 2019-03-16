@@ -39,9 +39,9 @@ public class ArticleService {
 		return marks;
 	}
 	
-	public Page<Article> buscarUserText(Pageable pageable, User u, String s) {
-		return articleRepository.buscarUserText(pageable, u,s);
-	}
+//	public Page<Article> buscarUserText(Pageable pageable, User u, String s) {
+//		return articleRepository.buscarUserText(pageable, u,s);
+//	}
 
 	public Article findArticle(Long id) {
 
@@ -49,11 +49,11 @@ public class ArticleService {
 
 	}
 
-		public void Comprar (User u,) {
-			String email = principal.getName();
-			User user = userService.getUserByEmail(email);
-			user.getArticles().add(article);
-			article.setOwner(user);
-			articleService.addArticle(article);
-		}
+//		public void Comprar (User u,) {
+//			String email = principal.getName();
+//			User user = userService.getUserByEmail(email);
+//			user.getArticles().add(article);
+//			article.setOwner(user);
+//			articleService.addArticle(article);
+//		}
 }

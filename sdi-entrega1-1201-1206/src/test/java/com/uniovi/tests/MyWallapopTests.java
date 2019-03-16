@@ -7,11 +7,17 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import com.uniovi.entities.Article;
+import com.uniovi.entities.User;
 import com.uniovi.pageobjects.PO_AddArticleView;
 import com.uniovi.pageobjects.PO_HomeView;
 import com.uniovi.pageobjects.PO_LoginView;
@@ -19,8 +25,12 @@ import com.uniovi.pageobjects.PO_NavView;
 import com.uniovi.pageobjects.PO_Properties;
 import com.uniovi.pageobjects.PO_RegisterView;
 import com.uniovi.pageobjects.PO_View;
+import com.uniovi.repositories.UserRepository;
+import com.uniovi.services.UserService;
 import com.uniovi.tests.utils.SeleniumUtils;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class MyWallapopTests {
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
@@ -28,6 +38,11 @@ public class MyWallapopTests {
 	static String Geckdriver022 = "C:\\Users\\nacar\\Desktop\\SDI\\Practica 5\\PL-SDI-Sesión5-material\\geckodriver022win64.exe";
 	static WebDriver driver = getDriver(PathFirefox64, Geckdriver022);
 	static String URL = "http://localhost:8090";
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	public static WebDriver getDriver(String PathFirefox, String Geckdriver) {
 		System.setProperty("webdriver.firefox.bin", PathFirefox);
@@ -39,7 +54,98 @@ public class MyWallapopTests {
 	// Antes de cada prueba se navega al URL home de la aplicaciónn
 	@Before
 	public void setUp() {
+		initdb();
 		driver.navigate().to(URL);
+	}
+
+	private void initdb() {
+		userRepository.deleteAll();
+
+		User user1 = new User("user1@email.com", "NAcho", "Baru");
+		user1.setPassword("11111");
+		user1.setRole("ROLE_STANDARD");
+
+		User user2 = new User("user2@email.com", "Fer", "Ruiz");
+		user2.setPassword("11111");
+		user2.setRole("ROLE_STANDARD");
+
+		User user3 = new User("user3@email.com", "Ale", "Church");
+		user3.setPassword("11111");
+		user3.setRole("ROLE_STANDARD");
+
+		User user4 = new User("admin@email.com", "admin", "admin");
+		user4.setPassword("admin");
+		user4.setRole("ROLE_ADMIN");
+
+		User user5 = new User("user4@email.com", "Miguel", "Puerta");
+		user5.setPassword("admin");
+		user5.setRole("ROLE_STANDARD");
+
+		Article art11 = new Article("palo", "rama", 10);
+		Article art12 = new Article("hoja", "verde lol", 45);
+		Article art13 = new Article("sfg", "vsf", 10);
+
+		Article art21 = new Article("dfv", "vdv lol", 78);
+		Article art22 = new Article("dvf", "fvdfvfv lol", 56);
+		Article art23 = new Article("fvddfvd", "dfv lol", 111);
+
+		Article art31 = new Article("wefwrerf", "werfwef lol", 98);
+		Article art32 = new Article("wefwefwef", "wefwf lol", 89);
+		Article art33 = new Article("hwefwefweoja", "wefwef lol", 96);
+
+		Article art41 = new Article("howefwefja", "efewf lol", 698);
+		Article art42 = new Article("bdfb", "verqwdqwdde lol", 123);
+		Article art43 = new Article("hwefwefoja", "vewefwefrde lol", 7);
+
+		Article art51 = new Article("hoeefja", "verefwefde lol", 5);
+		Article art52 = new Article("hoefwefja", "verefwefde lol", 63);
+		Article art53 = new Article("hfewefoja", "verfwefwefbede lol", 71);
+
+		art11.setOwner(user1);
+		art12.setOwner(user1);
+		art13.setOwner(user1);
+
+		user1.addArticle(art11);
+		user1.addArticle(art12);
+		user1.addArticle(art13);
+
+		art21.setOwner(user2);
+		art22.setOwner(user2);
+		art23.setOwner(user2);
+
+		user2.addArticle(art21);
+		user2.addArticle(art22);
+		user2.addArticle(art23);
+
+		art31.setOwner(user3);
+		art32.setOwner(user3);
+		art33.setOwner(user3);
+
+		user3.addArticle(art31);
+		user3.addArticle(art32);
+		user3.addArticle(art33);
+
+		art41.setOwner(user4);
+		art42.setOwner(user4);
+		art43.setOwner(user4);
+
+		user4.addArticle(art41);
+		user4.addArticle(art42);
+		user4.addArticle(art43);
+
+		art51.setOwner(user5);
+		art52.setOwner(user5);
+		art53.setOwner(user5);
+
+		user5.addArticle(art51);
+		user5.addArticle(art52);
+		user5.addArticle(art53);
+
+		userService.addUser(user1);
+		userService.addUser(user2);
+		userService.addUser(user3);
+		userService.addUser(user4);
+		userService.addUser(user5);
 	}
 
 	// Después de cada prueba se borran las cookies del navegador

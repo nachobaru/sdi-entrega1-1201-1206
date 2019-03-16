@@ -23,7 +23,7 @@ public class Article {
 	@JoinColumn(name = "user_id")
 	private User owner;
 	
-	public Article(Long id, String title, String description,  double price) {
+	public Article( String title, String description,  double price) {
 		super();
 		this.id = id;
 		this.title = title;

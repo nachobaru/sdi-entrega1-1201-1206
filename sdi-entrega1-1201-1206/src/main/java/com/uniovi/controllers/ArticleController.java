@@ -63,20 +63,20 @@ public class ArticleController {
 		return "redirect:/home";
 	}
 
-	@RequestMapping(value="/article/list", method = RequestMethod.GET)
-	public String getSearch(Model model, Pageable pageable, Principal principal,
-			@RequestParam(value = "", required = false) String searchText) {
-		searchText = "%" + searchText + "%";
-		Page<Article> art = new PageImpl<Article>(new LinkedList<Article>());
-		if (searchText != null && !searchText.isEmpty()) {
-			art = articleService.buscarUserText(pageable,getActiveUser(), searchText);
-		}else {
-			art=articleService.searchAll(pageable, getActiveUser());
-		}
-		model.addAttribute("articlesList", art.getContent());
-		model.addAttribute("page", art);
-		return "/article/list";
-	}
+//	@RequestMapping(value="/article/list", method = RequestMethod.GET)
+//	public String getSearch(Model model, Pageable pageable, Principal principal,
+//			@RequestParam(value = "", required = false) String searchText) {
+//		searchText = "%" + searchText + "%";
+//		Page<Article> art = new PageImpl<Article>(new LinkedList<Article>());
+//		if (searchText != null && !searchText.isEmpty()) {
+//			art = articleService.buscarUserText(pageable,getActiveUser(), searchText);
+//		}else {
+//			art=articleService.searchAll(pageable, getActiveUser());
+//		}
+//		model.addAttribute("articlesList", art.getContent());
+//		model.addAttribute("page", art);
+//		return "/article/list";
+//	}
 
 	@RequestMapping("/article/list/update")
 	public String updateList(Model model,Pageable pageable, Principal principal) {
@@ -91,15 +91,15 @@ public class ArticleController {
 		User activeUser = userService.getUserByEmail(email);
 		return activeUser;
 	}
-	@RequestMapping(value="/article/buy/{id}", method = RequestMethod.POST)
-	public String getBuy(Model model, Pageable pageable, Principal principal, @PathVariable Long id) {
-		User u= getActiveUser();
-		Article a=articleService.findArticle(id);
-		if(u.getPocket()>=a.getPrice()) {
-			Comprar(u,a);
-		}
-		return "/article/list/update";
-	}
+//	@RequestMapping(value="/article/buy/{id}", method = RequestMethod.POST)
+//	public String getBuy(Model model, Pageable pageable, Principal principal, @PathVariable Long id) {
+//		User u= getActiveUser();
+//		Article a=articleService.findArticle(id);
+//		if(u.getPocket()>=a.getPrice()) {
+//			Comprar(u,a);
+//		}
+//		return "/article/list/update";
+//	}
 
 
 }

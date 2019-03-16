@@ -119,5 +119,9 @@ public class User {
 		setPocket(getPocket()-amount);
 	}
 	
+	public void addArticle(Article art) {
+		articles.add(art);
+	}
+	
 	
 }
