@@ -32,7 +32,7 @@
 						<td th:text="${article.title}"><span th:text="#{artTitle.home}">Titulo</span></td>
 						<td th:text="${article.description}"><span th:text="#{artDesc.home}">Descrpicion</span></td>
 						<td th:text="${article.price}"><span th:text="#{artPrice.home}">Precio</span></td>
-						<td><a th:href="${'/article/delete/' + article.id}"><span th:text="#{delArt.home}">Eliminar</span></a></td>
+						<td><a name="eliminar" th:href="${'/article/delete/' + article.id}"><span th:text="#{delArt.home}">Eliminar</span></a></td>
 					</tr>
 				</tbody>
 			</table>
