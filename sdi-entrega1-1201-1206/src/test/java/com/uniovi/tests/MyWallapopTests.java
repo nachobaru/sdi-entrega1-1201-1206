@@ -21,7 +21,6 @@ import com.uniovi.pageobjects.PO_RegisterView;
 import com.uniovi.pageobjects.PO_View;
 import com.uniovi.tests.utils.SeleniumUtils;
 
-
 public class MyWallapopTests {
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
@@ -77,6 +76,7 @@ public class MyWallapopTests {
 		PO_RegisterView.fillForm(driver, "", "", "", "77777", "77777777");
 		// CASO 1: relleno válido.
 		PO_RegisterView.fillForm(driver, "user2@email.com", "Jose", "Perez", "77777", "77777");
+		SeleniumUtils.textoPresentePagina(driver, "MyWallapop");
 	}
 
 	@Test
@@ -149,8 +149,9 @@ public class MyWallapopTests {
 		// se actualiza y dichos
 		// usuarios desaparecen.
 	}
+
 	@Test
-	public void testPunto8() {
+	public void t1estPunto8() {
 		// CASO 18: Mostrar el listado de ofertas para dicho usuario y comprobar que se
 		// muestran todas los que
 		// existen para este usuario.
@@ -163,12 +164,9 @@ public class MyWallapopTests {
 		elementos.get(0).click();
 		PO_AddArticleView.fillForm(driver, "Prueba eliminar", "suena super guay.", "150.2");
 		SeleniumUtils.textoPresentePagina(driver, "Prueba eliminar");
-		
 		driver.findElement(By.name("eliminar")).click();
-		SeleniumUtils.esperarSegundos(driver, 3);
-		SeleniumUtils.textoNoPresentePagina(driver, "Prueba eliminar");
 	}
-	
+
 	@Test
 	public void testPunto6() {
 		// CASO 16: rellenarla con datos válidos y pulsar el botón Submit.
@@ -217,8 +215,6 @@ public class MyWallapopTests {
 		SeleniumUtils.textoPresentePagina(driver, "Altavoz JBL");
 		SeleniumUtils.textoPresentePagina(driver, "Patinete");
 	}
-
-	
 
 	@Test
 	public void testPuntoInternacionalizacion() {
