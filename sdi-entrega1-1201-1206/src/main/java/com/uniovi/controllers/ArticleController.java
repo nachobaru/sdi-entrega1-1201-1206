@@ -48,7 +48,8 @@ public class ArticleController {
 	@RequestMapping(value = "/article/add")
 	public String getArticle(Model model) {
 		model.addAttribute("article", new Article());
-		// TO DO
+		User activeUser = getActiveUser();
+		model.addAttribute("money", activeUser.getPocket());
 		return "article/add";
 	}
 
@@ -70,12 +71,17 @@ public class ArticleController {
 
 	@RequestMapping("/article/list")
 	public String getList(Model model, Principal principal) {
+		User activeUser = getActiveUser();
+		model.addAttribute("articlesList", articleService.searchAll(activeUser));
+		model.addAttribute("money", activeUser.getPocket());
+		return "/article/list";
+	}
+
+	private User getActiveUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = userService.getUserByEmail(email);
-		model.addAttribute("articlesList", articleService.searchAll(activeUser));
-		// TO DO
-		return "/article/list";
+		return activeUser;
 	}
 
 }

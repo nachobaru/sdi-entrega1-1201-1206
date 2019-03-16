@@ -1,6 +1,5 @@
 package com.uniovi.controllers;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,6 @@ import com.uniovi.entities.User;
 import com.uniovi.services.RoleService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UserService;
-import com.uniovi.validators.AddArticleValidator;
 import com.uniovi.validators.SignUpFormValidator;
 
 @Controller
@@ -44,13 +42,15 @@ public class UserController {
 	@RequestMapping("/user/details/{id}")
 	public String getDetail(Model model, @PathVariable Long id) {
 		model.addAttribute("user", userService.getUser(id));
-		// TO DO
+		User activeUser = getActiveUser();
+		model.addAttribute("money", activeUser.getPocket());
 		return "user/details";
 	}
 
 	@RequestMapping("/user/list")
 	public String getListado(Model model) {
-		// TO DO
+		User activeUser = getActiveUser();
+		model.addAttribute("money", activeUser.getPocket());
 		model.addAttribute("usersList", userService.getUsers());
 		return "/user/list";
 	}
@@ -59,7 +59,8 @@ public class UserController {
 	public String getEdit(Model model, @PathVariable Long id) {
 		User user = userService.getUser(id);
 		model.addAttribute("user", user);
-		// TO DO
+		User activeUser = getActiveUser();
+		model.addAttribute("money", activeUser.getPocket());
 		return "user/edit";
 	}
 
@@ -95,15 +96,21 @@ public class UserController {
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String searchProduct(Model model) {
-		// TO DO
+		User activeUser = getActiveUser();
+		model.addAttribute("money", activeUser.getPocket());
 		return "search";
+	}
+
+	private User getActiveUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User activeUser = userService.getUserByEmail(email);
+		return activeUser;
 	}
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String email = auth.getName();
-		User activeUser = userService.getUserByEmail(email);
+		User activeUser = getActiveUser();
 		model.addAttribute("articlesList", activeUser.getArticles());
 		model.addAttribute("money", activeUser.getPocket());
 		return "home";

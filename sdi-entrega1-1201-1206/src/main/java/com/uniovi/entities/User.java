@@ -27,6 +27,8 @@ public class User {
 	private String email;
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	Set<Article> articles;
+	
+	
 	public User(String email, String name, String lastName) {
 		super();
 		this.email=email;
