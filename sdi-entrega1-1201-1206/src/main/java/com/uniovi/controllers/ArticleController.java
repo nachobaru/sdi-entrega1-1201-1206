@@ -67,13 +67,17 @@ public class ArticleController {
 	public String getSearch(Model model, Pageable pageable, Principal principal,
 			@RequestParam(value = "", required = false) String searchText) {
 		searchText = "%" + searchText + "%";
+		User u= getActiveUser();
+		model.addAttribute("money",u.getPocket());
+		model.addAttribute("user", u);
 		Page<Article> art = new PageImpl<Article>(new LinkedList<Article>());
 		if (searchText != null && !searchText.isEmpty()) {
-			art = articleService.buscarUserText(pageable,getActiveUser(), searchText);
+			art = articleService.searchByString(pageable, searchText);
 		}else {
 			art=articleService.searchAll(pageable, getActiveUser());
 		}
 		model.addAttribute("articlesList", art.getContent());
+		
 		model.addAttribute("page", art);
 		return "/article/list";
 	}
@@ -94,11 +98,13 @@ public class ArticleController {
 	@RequestMapping(value="/article/buy/{id}", method = RequestMethod.POST)
 	public String getBuy(Model model, Pageable pageable, Principal principal, @PathVariable Long id) {
 		User u= getActiveUser();
+		model.addAttribute("user", u);
+		//Long l=Long.parseLong(id);
 		Article a=articleService.findArticle(id);
-		if(u.getPocket()>=a.getPrice()) {
-			Comprar(u,a);
-		}
-		return "/article/list/update";
+		
+			articleService.Comprar(u,a);
+		
+		return "redirect: /article/list/update";
 	}
 
 

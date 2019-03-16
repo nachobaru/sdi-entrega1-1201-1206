@@ -3,9 +3,13 @@ package com.uniovi.controllers;
 
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.uniovi.entities.Article;
 import com.uniovi.entities.User;
 import com.uniovi.services.RoleService;
 import com.uniovi.services.SecurityService;
@@ -97,7 +102,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public String searchProduct(Model model) {
+	public String searchProduct(Pageable pageable, Model model) {
 		User activeUser = getActiveUser();
 		model.addAttribute("money", activeUser.getPocket());
 		return "search";
@@ -131,5 +136,13 @@ public class UserController {
 		}
 		return "redirect:/user/list";
 	}
+	@RequestMapping("/article/yourProducts")
+	public String productosComprados(Pageable pageable,Model model) {
+		User activeUser = getActiveUser();
+		model.addAttribute("articlesList", activeUser.getArticles());
+		model.addAttribute("money", activeUser.getPocket());
+		return "/article/yourProducts";
+	}
+	
 	
 }

@@ -20,7 +20,7 @@ public class User {
 	private String lastName;
 	private String role;
 	private String password;
-	private double pocket =100;
+	private double pocket;
 	@Transient 
 	private String passwordConfirm;
 	@Column(unique = true)
@@ -34,6 +34,7 @@ public class User {
 		this.email=email;
 		this.name = name;
 		this.lastName = lastName;
+		this.pocket=100;
 		articles= new HashSet<Article>();
 	}
 	public User() {

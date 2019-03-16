@@ -22,6 +22,7 @@ public class Article {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User owner;
+	private boolean comprado;
 	
 	public Article(Long id, String title, String description,  double price) {
 		super();
@@ -31,6 +32,7 @@ public class Article {
 		Calendar today =  Calendar.getInstance();
 		setDate(today);
 		this.price = price;
+		this.comprado=false;
 	}
 public Article() {
 	
@@ -87,6 +89,12 @@ public Article() {
 
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+	public boolean isComprado() {
+		return comprado;
+	}
+	public void setComprado(boolean comprado) {
+		this.comprado = comprado;
 	}
 	
 	

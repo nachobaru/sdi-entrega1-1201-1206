@@ -1,56 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title>sdi1206-lab-spring</title>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
+<head th:replace="fragments/head" />
 <body>
 	<nav th:replace="fragments/nav" />
-	<h2>
-		<span th:text="#{ava.al}"> </span>
-	</h2>
-	<form class="navbar-form" action="/article/list">
-		<div class="form-group">
-			<input name="searchText" type="text" class="form-control" size="50"
-				placeholder="Buscar por descripción o nombre del alumno">
+	<div class="container" style="text-align: center">
+		<h2 th:text="#{welcome.message}"></h2>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th class="col-md-1"><span th:text="#{artTitle.home}">Titulo</span></th>
+						<th><span th:text="#{artDesc.home}">Descrpicion</span></th>
+						<th><span th:text="#{artPrice.home}">Precio</span></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="article : ${articlesList}">
+						<td th:text="${article.title}"><span
+							th:text="#{artTitle.home}">Titulo</span></td>
+						<td th:text="${article.description}"><span
+							th:text="#{artDesc.home}">Descripcion</span></td>
+						<td th:text="${article.price}"><span
+							th:text="#{artPrice.home}">Precio</span></td>
+						<td><a th:if="${article.owner}!=${user}" name="eliminar"
+							th:href="${'/article/delete/' + article.id}"><span
+								th:text="#{comArt.list}">Eliminar</span></a></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
-		<button type="submit" class="btn btn-default">Buscar</button>
-	</form>
-	<div class="table-responsive">
-		<table class="table table-hover" th:fragment="tableArticles"
-			id="tableArticle">
-			<thead>
-				<tr>
-					<th>Titulo</th>
-					<th>Descripcion</th>
-					<th>Precio</th>
-					<th>Comprar</th>
-					<th class="col-md-1"></th>
-					<th class="col-md-1"></th>
-					<th class="col-md-1"></th>
-					<th class="col-md-1"></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="article : ${articlesList}">
-					<td th:text="${article.title}"></td>
-					<td th:text="${article.description}"></td>
-					<td th:text="${article.price}"></td>
-					<td><form class="button" th:action="@{'/article/buy/' + article.id}"
-							method="GET">
-							<input type="submit" value="Add" />
-						</form></td>
-				</tr>
-			</tbody>
-		</table>
 	</div>
-
 	<footer th:replace="fragments/footer" />
+</body>
 </html>
