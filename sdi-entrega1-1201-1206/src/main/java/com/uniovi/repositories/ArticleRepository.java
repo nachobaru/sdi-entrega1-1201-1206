@@ -13,14 +13,16 @@ import com.uniovi.entities.User;
 public interface ArticleRepository extends CrudRepository<Article, Long> {
 	@Query("SELECT r FROM Article r WHERE (LOWER(r.title) LIKE LOWER(?1))")
 	Page<Article> searchByString(Pageable pageable, String seachtext);
+	
+	@Query("SELECT r FROM Article r WHERE  r.owner != ?1   ORDER BY r.id ASC ")
+	Page<Article> findByUsuario(Pageable pageable, User user);
 
 //	@Query("SELECT r FROM Oferta r WHERE r.owner = ?1  ORDER BY r.id ASC  ")
 //	Page<Article> searchAll(Pageable pageable,User u);
 		// TODO Auto-generated method stub
 	Page<Article> findAll(Pageable pageable);
 	
-	@Query("SELECT r FROM Article r WHERE  r.owner <> ?1   ORDER BY r.id ASC ")
-	Page<Article> findByUsuario(Pageable pageable, User user);
+
 	
 	@Query("SELECT r FROM Article r WHERE(r.id = ?1) ORDER BY r.id ASC ")
 	Article findID(Long id);

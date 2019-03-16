@@ -65,17 +65,18 @@ public class ArticleController {
 
 	@RequestMapping(value="/article/list", method = RequestMethod.GET)
 	public String getSearch(Model model, Pageable pageable, Principal principal,
-			@RequestParam(value = "", required = false) String searchText) {
+			@RequestParam(required = false) String searchText) {
 		searchText = "%" + searchText + "%";
 		User u= getActiveUser();
 		model.addAttribute("money",u.getPocket());
 		model.addAttribute("user", u);
 		Page<Article> art = new PageImpl<Article>(new LinkedList<Article>());
-		if (searchText != null && !searchText.isEmpty()) {
+		art=articleService.searchAll(pageable, getActiveUser());
+		if ( !searchText.isEmpty()) {
 			art = articleService.searchByString(pageable, searchText);
-		}else {
-			art=articleService.searchAll(pageable, getActiveUser());
 		}
+			
+		
 		model.addAttribute("articlesList", art.getContent());
 		
 		model.addAttribute("page", art);

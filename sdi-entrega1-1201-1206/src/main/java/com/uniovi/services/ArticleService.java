@@ -26,15 +26,14 @@ public class ArticleService {
 	}
 
 	public  Page<Article> searchByString (Pageable pageable, String searchText){
-		Page<Article> marks = new PageImpl<Article>(new LinkedList<Article>());
-		marks = articleRepository.searchByString(pageable, searchText);
-		return marks;
+		Page<Article> art = new PageImpl<Article>(new LinkedList<Article>());
+		art = articleRepository.searchByString(pageable, searchText);
+		return art;
 	}
 
 	public  Page<Article> searchAll (Pageable pageable, User activeUser){
 		Page<Article> art = new PageImpl<Article>(new LinkedList<Article>());
-		
-		art = articleRepository.findByUsuario(pageable, activeUser);
+		art  = articleRepository.findByUsuario(pageable, activeUser);
 		return art;
 	}
 
