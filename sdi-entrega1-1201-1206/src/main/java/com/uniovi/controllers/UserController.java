@@ -1,5 +1,7 @@
 package com.uniovi.controllers;
 
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,14 +119,17 @@ public class UserController {
 	}
 
 	// Prueba para eliminar multiples ususarios
+
 	@RequestMapping(value = "/user/delete", method = RequestMethod.POST)
 	public String deleteMultipleUsers(@RequestParam(required = false) List<Long> listID) {
 		List<Long> aux = new ArrayList<Long>();
 		aux = listID;
 		for (int i = 0; i < aux.size(); i++) {
+
 			userService.deleteUser(aux.get(i));
+
 		}
 		return "redirect:/user/list";
 	}
-
+	
 }

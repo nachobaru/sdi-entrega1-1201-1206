@@ -1,9 +1,12 @@
 package com.uniovi.services;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Article;
@@ -23,23 +26,34 @@ public class ArticleService {
 		articleRepository.deleteById(id);
 	}
 
-	public  List<Article> searchByString (String searchText){
-		List<Article> marks = new ArrayList<Article>();
-		marks = articleRepository.searchByString(searchText);
+	public  Page<Article> searchByString (Pageable pageable, String searchText){
+		Page<Article> marks = new PageImpl<Article>(new LinkedList<Article>());
+		marks = articleRepository.searchByString(pageable, searchText);
+		return marks;
+	}
+
+	public  Page<Article> searchAll (Pageable pageable, User activeUser){
+		Page<Article> marks = new PageImpl<Article>(new LinkedList<Article>());
+		Long user_id=activeUser.getId();
+		marks = articleRepository.searchAll(pageable, user_id);
 		return marks;
 	}
 	
-	public  List<Article> searchAll (User activeUser){
-		List<Article> marks = new ArrayList<Article>();
-		marks = articleRepository.searchAll(activeUser);
-		return marks;
+	public Page<Article> buscarUserText(Pageable pageable, User u, String s) {
+		return articleRepository.buscarUserText(pageable, u,s);
 	}
-	
-//	public void buy (User activeUser) {
-//		String email = principal.getName();
-//		User user = userService.getUserByEmail(email);
-//		user.getArticles().add(article);
-//		article.setOwner(user);
-//		articleService.addArticle(article);
-//	}
+
+	public Article findArticle(Long id) {
+
+		return   articleRepository.findID(id);
+
+	}
+
+		public void Comprar (User u,) {
+			String email = principal.getName();
+			User user = userService.getUserByEmail(email);
+			user.getArticles().add(article);
+			article.setOwner(user);
+			articleService.addArticle(article);
+		}
 }

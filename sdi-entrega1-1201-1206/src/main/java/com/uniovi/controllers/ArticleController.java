@@ -1,8 +1,12 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
+import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -59,29 +63,43 @@ public class ArticleController {
 		return "redirect:/home";
 	}
 
-	@RequestMapping("/article/search")
-	public String getSearch(Model model, Principal principal,
+	@RequestMapping(value="/article/list", method = RequestMethod.GET)
+	public String getSearch(Model model, Pageable pageable, Principal principal,
 			@RequestParam(value = "", required = false) String searchText) {
 		searchText = "%" + searchText + "%";
+		Page<Article> art = new PageImpl<Article>(new LinkedList<Article>());
 		if (searchText != null && !searchText.isEmpty()) {
-			model.addAttribute("articlesList", articleService.searchByString(searchText));
+			art = articleService.buscarUserText(pageable,getActiveUser(), searchText);
+		}else {
+			art=articleService.searchAll(pageable, getActiveUser());
 		}
-		return "redirect:/article/list";
-	}
-
-	@RequestMapping("/article/list")
-	public String getList(Model model, Principal principal) {
-		User activeUser = getActiveUser();
-		model.addAttribute("articlesList", articleService.searchAll(activeUser));
-		model.addAttribute("money", activeUser.getPocket());
+		model.addAttribute("articlesList", art.getContent());
+		model.addAttribute("page", art);
 		return "/article/list";
 	}
 
+	@RequestMapping("/article/list/update")
+	public String updateList(Model model,Pageable pageable, Principal principal) {
+	
+		User activeUser = getActiveUser();
+		model.addAttribute("articlesList", articleService.searchAll(pageable, activeUser));
+		return "/article/list :: tableArticles";
+	}
 	private User getActiveUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = userService.getUserByEmail(email);
 		return activeUser;
 	}
+	@RequestMapping(value="/article/buy/{id}", method = RequestMethod.POST)
+	public String getBuy(Model model, Pageable pageable, Principal principal, @PathVariable Long id) {
+		User u= getActiveUser();
+		Article a=articleService.findArticle(id);
+		if(u.getPocket()>=a.getPrice()) {
+			Comprar(u,a);
+		}
+		return "/article/list/update";
+	}
+
 
 }
