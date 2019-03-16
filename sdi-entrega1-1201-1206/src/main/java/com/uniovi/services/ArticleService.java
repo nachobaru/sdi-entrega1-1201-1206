@@ -1,6 +1,7 @@
 package com.uniovi.services;
 
 import java.util.LinkedList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,7 +31,7 @@ public class ArticleService {
 		marks = articleRepository.searchByString(pageable, searchText);
 		return marks;
 	}
-	
+
 	public  Page<Article> searchAll (Pageable pageable, User activeUser){
 		Page<Article> marks = new PageImpl<Article>(new LinkedList<Article>());
 		Long user_id=activeUser.getId();
@@ -38,11 +39,21 @@ public class ArticleService {
 		return marks;
 	}
 	
-//	public void buy (User activeUser) {
-//		String email = principal.getName();
-//		User user = userService.getUserByEmail(email);
-//		user.getArticles().add(article);
-//		article.setOwner(user);
-//		articleService.addArticle(article);
-//	}
+	public Page<Article> buscarUserText(Pageable pageable, User u, String s) {
+		return articleRepository.buscarUserText(pageable, u,s);
+	}
+
+	public Article findArticle(Long id) {
+
+		return   articleRepository.findID(id);
+
+	}
+
+		public void Comprar (User u,) {
+			String email = principal.getName();
+			User user = userService.getUserByEmail(email);
+			user.getArticles().add(article);
+			article.setOwner(user);
+			articleService.addArticle(article);
+		}
 }

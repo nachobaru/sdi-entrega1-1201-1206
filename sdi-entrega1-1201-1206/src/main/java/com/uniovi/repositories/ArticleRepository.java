@@ -1,7 +1,5 @@
 package com.uniovi.repositories;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +16,9 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 	Page<Article> searchAll(Pageable pageable,Long user_id);
 		// TODO Auto-generated method stub
 	Page<Article> findAll(Pageable pageable);
+	
+	@Query("SELECT r FROM Article r WHERE(r.id = ?1) ORDER BY r.id ASC ")
+	Article findID(Long id);
+	@Query("SELECT r FROM Article r WHERE WHERE NOT (r.owner= ?1) AND (LOWER(r.title) LIKE LOWER(?2) ")
+	Page<Article> buscarUserText(Pageable pageable,  User user ,String seachtext);
 }

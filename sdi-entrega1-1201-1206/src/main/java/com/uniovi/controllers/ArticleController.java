@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import com.uniovi.entities.Article;
 import com.uniovi.entities.User;
 import com.uniovi.services.ArticleService;
 import com.uniovi.services.UserService;
+import com.uniovi.validators.AddArticleValidator;
 
 @Controller
 public class ArticleController {
@@ -29,9 +32,15 @@ public class ArticleController {
 	private ArticleService articleService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AddArticleValidator articleValidator;
 
 	@RequestMapping(value = "/article/add", method = RequestMethod.POST)
-	public String setArticle(@ModelAttribute Article article, Principal principal) {
+	public String setArticle(@ModelAttribute @Validated Article article, BindingResult result, Principal principal) {
+		articleValidator.validate(article, result);
+		if (result.hasErrors()) {
+			return "/article/add";
+		}
 		String email = principal.getName();
 		User user = userService.getUserByEmail(email);
 		user.getArticles().add(article);
@@ -42,7 +51,9 @@ public class ArticleController {
 
 	@RequestMapping(value = "/article/add")
 	public String getArticle(Model model) {
-		model.addAttribute("usersList", userService.getUsers());
+		model.addAttribute("article", new Article());
+		User activeUser = getActiveUser();
+		model.addAttribute("money", activeUser.getPocket());
 		return "article/add";
 	}
 
@@ -58,12 +69,9 @@ public class ArticleController {
 		searchText = "%" + searchText + "%";
 		Page<Article> art = new PageImpl<Article>(new LinkedList<Article>());
 		if (searchText != null && !searchText.isEmpty()) {
-			art = articleService.searchByString(pageable, searchText);
+			art = articleService.buscarUserText(pageable,getActiveUser(), searchText);
 		}else {
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			String email = auth.getName();
-			User activeUser = userService.getUserByEmail(email);
-			art=articleService.searchAll(pageable, activeUser);
+			art=articleService.searchAll(pageable, getActiveUser());
 		}
 		model.addAttribute("articlesList", art.getContent());
 		model.addAttribute("page", art);
@@ -72,24 +80,26 @@ public class ArticleController {
 
 	@RequestMapping("/article/list/update")
 	public String updateList(Model model,Pageable pageable, Principal principal) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String email = auth.getName();
-		User activeUser = userService.getUserByEmail(email);
+	
+		User activeUser = getActiveUser();
 		model.addAttribute("articlesList", articleService.searchAll(pageable, activeUser));
 		return "/article/list :: tableArticles";
 	}
+	private User getActiveUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User activeUser = userService.getUserByEmail(email);
+		return activeUser;
+	}
+	@RequestMapping(value="/article/buy/{id}", method = RequestMethod.POST)
+	public String getBuy(Model model, Pageable pageable, Principal principal, @PathVariable Long id) {
+		User u= getActiveUser();
+		Article a=articleService.findArticle(id);
+		if(u.getPocket()>=a.getPrice()) {
+			Comprar(u,a);
+		}
+		return "/article/list/update";
+	}
 
-//	@RequestMapping(value="/article/list", method = RequestMethod.GET)
-//	public String getList(Model model,Pageable pageable, Principal principal) {
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		String email = auth.getName();
-//		User activeUser = userService.getUserByEmail(email);
-//		Page<Article> art = new PageImpl<Article>(new LinkedList<Article>());
-//		art=articleService.searchAll(pageable, activeUser);
-//		model.addAttribute("articlesList", art.getContent());
-//		model.addAttribute("page", art);
-//
-//		return "/article/list";
-//	}
 
 }

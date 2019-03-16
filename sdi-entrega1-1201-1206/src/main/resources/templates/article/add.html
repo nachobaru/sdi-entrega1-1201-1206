@@ -1,39 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="fragments/head"/>
+<head th:replace="fragments/head" />
 <body>
+	<!-- Barra de Navegación superior -->
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+		<h2>
+			<span th:text="#{addArt.nav}">Agregar Producto</span>
+		</h2>
+		<form class="form-horizontal" method="post" action="/article/add"
+			th:object="${article}">
 
-<!-- Barra de Navegación superior -->
-<nav th:replace="fragments/nav"/>
-<div class="container">
-  <h2><span th:text="#{addArt.nav}">Agregar Producto</span></h2>
-  <form class="form-horizontal" method="post" action="/article/add">
-</div>
-<div class="form-group">
-      <label class="control-label col-sm-2" for="description"><span th:text="#{artTitle.home}">Titulo:</span></label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" name="title" placeholder="titulo del artículo" required="true" />
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="description"><span th:text="#{artDesc.home}">Descripcion: </span></label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" name="description" placeholder="Descripcion del artículo" required="true" />
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd"><span th:text="#{artPrice.home}">Precio: </span></label>
-      <div class="col-sm-10">          
-        <input type="text" class="form-control" name="price" placeholder="precio del artículo" required="true" />
-      </div>
-    </div>
-    <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary"><span th:text="#{addArt.nav}">Agregar Producto</span></button>
-      </div>
-    </div>
-  </form>
-</div>
-<footer th:replace="fragments/footer"/>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="description"><span
+					th:text="#{artTitle.home}">Titulo:</span></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="title"
+						placeholder="titulo del artículo"  /> <span
+						class="text-danger" th:if="${#fields.hasErrors('title')}"
+						th:errors="*{title}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="description"><span
+					th:text="#{artDesc.home}">Descripcion: </span></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="description"
+						placeholder="Descripcion del artículo"  /> <span
+						class="text-danger" th:if="${#fields.hasErrors('description')}"
+						th:errors="*{description}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="pwd"><span
+					th:text="#{artPrice.home}">Precio: </span></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="price"
+						placeholder="precio del artículo"  /> <span
+						class="text-danger" th:if="${#fields.hasErrors('price')}"
+						th:errors="price">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary">
+						<span th:text="#{addArt.nav}">Agregar Producto</span>
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<footer th:replace="fragments/footer" />
 </body>
 </html>

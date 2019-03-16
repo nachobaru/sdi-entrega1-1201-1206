@@ -1,9 +1,9 @@
 package com.uniovi.controllers;
 
 
+
 import java.util.ArrayList;
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,8 +22,6 @@ import com.uniovi.entities.User;
 import com.uniovi.services.RoleService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UserService;
-import com.uniovi.validators.AddArticleValidator;
-import com.uniovi.validators.LoginFormValidator;
 import com.uniovi.validators.SignUpFormValidator;
 
 @Controller
@@ -36,12 +34,6 @@ public class UserController {
 	private SignUpFormValidator signUpFormValidator;
 	@Autowired
 	private RoleService roleService;
-	@Autowired
-	private LoginFormValidator loginValidator;
-	
-	@Autowired 
-	private AddArticleValidator articleValidator;
-	
 
 	@RequestMapping(value = "/user/add", method = RequestMethod.POST)
 	public String setUser(@ModelAttribute User user) {
@@ -52,17 +44,15 @@ public class UserController {
 	@RequestMapping("/user/details/{id}")
 	public String getDetail(Model model, @PathVariable Long id) {
 		model.addAttribute("user", userService.getUser(id));
+		User activeUser = getActiveUser();
+		model.addAttribute("money", activeUser.getPocket());
 		return "user/details";
 	}
 
-//	@RequestMapping("/user/delete/{id}")
-//	public String delete(@PathVariable Long id) {
-//		userService.deleteUser(id);
-//		return "redirect:/user/list";
-//	}
-
 	@RequestMapping("/user/list")
 	public String getListado(Model model) {
+		User activeUser = getActiveUser();
+		model.addAttribute("money", activeUser.getPocket());
 		model.addAttribute("usersList", userService.getUsers());
 		return "/user/list";
 	}
@@ -71,6 +61,8 @@ public class UserController {
 	public String getEdit(Model model, @PathVariable Long id) {
 		User user = userService.getUser(id);
 		model.addAttribute("user", user);
+		User activeUser = getActiveUser();
+		model.addAttribute("money", activeUser.getPocket());
 		return "user/edit";
 	}
 
@@ -101,45 +93,43 @@ public class UserController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
-		model.addAttribute("user", new User());
 		return "login";
 	}
-	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login( @Validated User user, BindingResult result, Model model) {
-		loginValidator.validate(user,result);
-		if(result.hasErrors()) {
-			return "login";
-		}
-		return "login";
-	}
-	
+
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String searchProduct(Model model) {
+		User activeUser = getActiveUser();
+		model.addAttribute("money", activeUser.getPocket());
 		return "search";
 	}
 
-
-	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
-	public String home(Model model) {
+	private User getActiveUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = userService.getUserByEmail(email);
+		return activeUser;
+	}
+
+	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
+	public String home(Model model) {
+		User activeUser = getActiveUser();
 		model.addAttribute("articlesList", activeUser.getArticles());
+		model.addAttribute("money", activeUser.getPocket());
 		return "home";
 	}
 
 	// Prueba para eliminar multiples ususarios
 
-	@RequestMapping(value="/user/delete", method = RequestMethod.POST)
-	public String deleteMultipleUsers(@RequestParam (required = false) List<Long> listID) {
-		List<Long>aux= new ArrayList<Long>();
-		aux=listID;
-		for (int i = 0; i<aux.size();i++) {
-			userService.deleteUser(aux.get(i));
-		}
+	@RequestMapping(value = "/user/delete", method = RequestMethod.POST)
+	public String deleteMultipleUsers(@RequestParam(required = false) List<Long> listID) {
+		List<Long> aux = new ArrayList<Long>();
+		aux = listID;
+		for (int i = 0; i < aux.size(); i++) {
 
+			userService.deleteUser(aux.get(i));
+
+		}
 		return "redirect:/user/list";
 	}
-
+	
 }
