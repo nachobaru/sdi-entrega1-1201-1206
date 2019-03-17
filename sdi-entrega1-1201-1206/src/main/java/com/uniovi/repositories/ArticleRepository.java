@@ -26,13 +26,5 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 	
 	@Query("SELECT r FROM Article r WHERE(r.id = ?1) ORDER BY r.id ASC ")
 	Article findID(Long id);
-//	@Query("SELECT r FROM Article r WHERE NOT (r.owner= ?1) AND (LOWER(r.title) LIKE LOWER(?2) ")
-//	Page<Article> buscarUserText(Pageable pageable,  User user ,String seachtext);
-		
 
-	
-//	@Transactional 
-//	@Modifying
-//	@Query("DELETE FROM Oferta WHERE usuario.id=?1")
-//	void deleteByArticleId(Long id);
 }

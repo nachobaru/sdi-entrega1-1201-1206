@@ -75,17 +75,18 @@ public class ArticleController {
 		if ( !searchText.isEmpty()) {
 			art = articleService.searchByString(pageable, searchText);
 		}
-			
-		
+
+
 		model.addAttribute("articlesList", art.getContent());
-		
+
 		model.addAttribute("page", art);
 		return "/article/list";
 	}
 
+
 	@RequestMapping("/article/list/update")
 	public String updateList(Model model,Pageable pageable, Principal principal) {
-	
+
 		User activeUser = getActiveUser();
 		model.addAttribute("articlesList", articleService.searchAll(pageable, activeUser));
 		return "/article/list :: tableArticles";
@@ -96,17 +97,17 @@ public class ArticleController {
 		User activeUser = userService.getUserByEmail(email);
 		return activeUser;
 	}
+
 	@RequestMapping(value="/article/buy/{id}", method = RequestMethod.POST)
 	public String getBuy(Model model, Pageable pageable, Principal principal, @PathVariable Long id) {
 		User u= getActiveUser();
-		model.addAttribute("user", u);
+
 		//Long l=Long.parseLong(id);
 		Article a=articleService.findArticle(id);
-		
-			articleService.Comprar(u,a);
-		
+
+		articleService.Comprar(u,a);
+		model.addAttribute("user", u);
 		return "redirect: /article/list/update";
 	}
-
 
 }

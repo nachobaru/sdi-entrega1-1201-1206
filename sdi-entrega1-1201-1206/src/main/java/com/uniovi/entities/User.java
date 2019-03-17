@@ -20,7 +20,7 @@ public class User {
 	private String lastName;
 	private String role;
 	private String password;
-	private double pocket;
+	private double pocket=100;
 	@Transient 
 	private String passwordConfirm;
 	@Column(unique = true)
@@ -118,6 +118,10 @@ public class User {
 	}
 	public void subtractMoney(double amount) {
 		setPocket(getPocket()-amount);
+	}
+	
+	public void addArticle(Article art) {
+		articles.add(art);
 	}
 	
 	

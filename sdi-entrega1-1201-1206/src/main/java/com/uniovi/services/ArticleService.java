@@ -37,15 +37,13 @@ public class ArticleService {
 		return art;
 	}
 
-	//	public Page<Article> buscarUserText(Pageable pageable, User u, String s) {
-	//		return articleRepository.buscarUserText(pageable, u,s);
-	//	}
 
 	public Article findArticle(Long id) {
 
 		return   articleRepository.findID(id);
 
 	}
+
 
 	public void Comprar (User u, Article a) {
 		if(u.getPocket()>=a.getPrice()) {
@@ -54,6 +52,8 @@ public class ArticleService {
 			b.addMoney(a.getPrice());
 			a.setComprado(true);
 			a.setOwner(u);
+			u.addArticle(a);
 		}
 	}
+
 }

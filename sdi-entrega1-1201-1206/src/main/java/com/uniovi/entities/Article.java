@@ -24,7 +24,7 @@ public class Article {
 	private User owner;
 	private boolean comprado;
 	
-	public Article(Long id, String title, String description,  double price) {
+	public Article( String title, String description,  double price) {
 		super();
 		this.id = id;
 		this.title = title;
