@@ -34,8 +34,8 @@ import com.uniovi.tests.utils.SeleniumUtils;
 public class MyWallapopTests {
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
-	static String PathFirefox64 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver022 = "C:\\Users\\nacar\\Desktop\\SDI\\Practica 5\\PL-SDI-Sesión5-material\\geckodriver022win64.exe";
+	static String PathFirefox64 = "D:\\ProgramasInstalados\\Firefox\\firefox.exe";
+	static String Geckdriver022 = "C:\\Users\\alejandro\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver022win64.exe";
 	static WebDriver driver = getDriver(PathFirefox64, Geckdriver022);
 	static String URL = "http://localhost:8090";
 	@Autowired
