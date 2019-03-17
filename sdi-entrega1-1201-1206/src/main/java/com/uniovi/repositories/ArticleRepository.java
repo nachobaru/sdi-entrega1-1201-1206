@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.uniovi.entities.Article;
-import com.uniovi.entities.User;
 
 public interface ArticleRepository extends CrudRepository<Article, Long> {
 	@Query("SELECT r FROM Article r WHERE (LOWER(r.title) LIKE LOWER(?1))")

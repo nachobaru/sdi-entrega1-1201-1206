@@ -25,7 +25,6 @@ public class Article {
 	
 	public Article( String title, String description,  double price) {
 		super();
-		this.id = id;
 		this.title = title;
 		this.description = description;
 		Calendar today =  Calendar.getInstance();
