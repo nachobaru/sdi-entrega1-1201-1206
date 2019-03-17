@@ -1,0 +1,98 @@
+<!-- nav.html -->
+<nav class="navbar navbar-inverse" style="background-color: #2B0D78">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#myNavbar">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<img src="/img/logo.jpg" alt="logo" width="50px" height="50px" />
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
+				<li><a href="/home">Home</a></li>
+				<li sec:authorize="isAuthenticated()"><a href="/home" th:text="${money} + ' €'">Home</a></li>
+				<li id="article-menu" class="dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown" href="#"> <span
+						th:text="#{artMgmt.nav}">Gestion de Productos</span> <span
+						class="caret"></span>
+				</a>
+					<ul class="dropdown-menu">
+						<li sec:authorize="hasRole('ROLE_STANDARD')"><a
+							href="/article/add"><span th:text="#{addArt.nav}">Agregar
+									Producto</span></a></li>
+						<li sec:authorize="hasRole('ROLE_USER')"><a
+							href="/article/add"><span th:text="#{addArt.nav}">Agregar
+									Producto</span></a></li>
+						<li><a href="/article/list"><span th:text="#{buyArt.nav}">Comprar
+									Producto</span></a></li>
+					</ul></li>
+				<li id="users-menu" class="dropdown"
+					sec:authorize="hasRole('ROLE_ADMIN')"><a
+					class="dropdown-toggle" data-toggle="dropdown" href="#"> <span
+						th:text="#{userMgmt.nav}">Gestion de Usuarios</span><span
+						class="caret"></span>
+				</a>
+					<ul class="dropdown-menu">
+						<li><a href="/signup"><span th:text="#{addUser.nav}">Agregar
+									Usuario</span></a></li>
+						<li><a href="/user/list"><span th:text="#{seeUsers.nav}">Ver
+									Usuarios</span></a></li>
+					</ul></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li id="lang-menu" class="dropdown"><a id="btnLanguage"
+					href="
+					 #" class="dropdown-toggle" data-toggle="dropdown"
+					role="button" aria-haspopup="true" aria-expanded="false"> <span
+						th:text="#{language.change}"></span> <span class="caret"></span>
+				</a>
+					<ul id="languageDropdownMenuButton" class="dropdown-menu">
+						<li><a id="btnEnglish" value="EN"> <img
+								th:src="@{/img/if_uk_flag.png}"
+								style="border: 0; float: left; margin-right: 15px" /> <span
+								th:text="#{language.en}">Inglés</span>
+						</a></li>
+						<li><a id="btnSpanish" value="ES"> <img
+								th:src="@{/img/if_spain_flag.png}"
+								style="border: 0; float: left; margin-right: 15px" /> <span
+								th:text="#{language.es}">Español</span>
+						</a></li>
+					</ul></li>
+				<script type="text/javascript">
+					$(document).ready(
+							function() {
+								$("#languageDropdownMenuButton a").click(
+										function(e) {
+											e.preventDefault(); // cancel the link behaviour
+											var languageSelectedText = $(this)
+													.text();
+											var languageSelectedValue = $(this)
+													.attr("value");
+											$("#btnLanguage").text(
+													languageSelectedText);
+											window.location.replace('?lang='
+													+ languageSelectedValue);
+											return false;
+										});
+							});
+				</script>
+
+				<li sec:authorize="!isAuthenticated()"><a href="/signup"
+					th:text="#{signup.message}"> <span
+						class="glyphicon glyphicon-user"></span> Registrate
+				</a></li>
+				<li sec:authorize="!isAuthenticated()"><a href="/login"
+					th:text="#{login.message}"> <span
+						class="glyphicon glyphicon-log-in"></span> Identificate
+				</a></li>
+				<li sec:authorize="isAuthenticated()"><a href="/logout"> <span
+						class="glyphicon glyphicon-log-out"></span> <span
+						th:text="#{logout.message}">Desconectar</span>
+				</a></li>
+
+			</ul>
+		</div>
+	</div>
+</nav>
