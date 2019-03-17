@@ -89,6 +89,7 @@ public class ArticleController {
 
 		User activeUser = getActiveUser();
 		model.addAttribute("articlesList", articleService.searchAll(pageable, activeUser));
+		model.addAttribute("user",  activeUser);
 		return "/article/list :: tableArticles";
 	}
 	private User getActiveUser() {

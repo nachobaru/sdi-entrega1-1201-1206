@@ -1,6 +1,7 @@
 package com.uniovi.entities;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -11,6 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 @Entity
 public class User {
 
@@ -22,13 +26,14 @@ public class User {
 	private String role;
 	private String password;
 	private double pocket=100;
+	//Set<Article> comprados;
 	@Transient 
 	private String passwordConfirm;
 	@Column(unique = true)
 	private String email;
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	Set<Article> articles;
-	List<Article>comprados;
+
 	
 	
 	public User(String email, String name, String lastName) {
@@ -125,12 +130,24 @@ public class User {
 	public void addArticle(Article art) {
 		articles.add(art);
 	}
-	public List<Article> getComprados() {
-		return comprados;
-	}
-	public void setComprados(Article article) {
-		this.comprados.add(article);
-	}
+//	public Set <Article> getComprados() {
+//		return comprados;
+//	}
+//	public void setComprados(Article article) {
+//		this.comprados.add(article);
+//	}
+//	public Set<Article> getComprados(){
+//		Page<Article> art = new PageImpl<Article>(new LinkedList<Article>());
+//		
+//		Article[] aux= (Article[]) articles.toArray();
+//	
+//		for(int i=0; i<articles.size();i++) {
+//			if(aux[i].isComprado()==true) {
+//				art.
+//			}
+//			
+//		}
+//	}
 	
 	
 }

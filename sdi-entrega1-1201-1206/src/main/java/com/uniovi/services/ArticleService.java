@@ -53,7 +53,7 @@ public class ArticleService {
 			a.setComprado(true);
 			a.setOwner(u);
 			u.addArticle(a);
-			u.setComprados(a);
+			//u.setComprados(a);
 		}
 	}
 
