@@ -19,11 +19,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.uniovi.entities.Article;
 import com.uniovi.entities.User;
 import com.uniovi.pageobjects.PO_AddArticleView;
+import com.uniovi.pageobjects.PO_DeleteUser;
 import com.uniovi.pageobjects.PO_HomeView;
 import com.uniovi.pageobjects.PO_LoginView;
+import com.uniovi.pageobjects.PO_MoneyView;
 import com.uniovi.pageobjects.PO_NavView;
 import com.uniovi.pageobjects.PO_Properties;
 import com.uniovi.pageobjects.PO_RegisterView;
+import com.uniovi.pageobjects.PO_SearchView;
 import com.uniovi.pageobjects.PO_View;
 import com.uniovi.repositories.UserRepository;
 import com.uniovi.services.UserService;
@@ -34,10 +37,14 @@ import com.uniovi.tests.utils.SeleniumUtils;
 public class MyWallapopTests {
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
-	static String PathFirefox64 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver022 = "C:\\Users\\nacar\\Desktop\\SDI\\Practica 5\\PL-SDI-Sesión5-material\\geckodriver022win64.exe";
+	static String PathFirefox64 = "D:\\ProgramasInstalados\\Firefox\\firefox.exe";
+	static String Geckdriver022 = "C:\\Users\\alejandro\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver022win64.exe";
 	static WebDriver driver = getDriver(PathFirefox64, Geckdriver022);
-	static String URL = "http://localhost:8090";
+	static String URLlocal = "http://localhost:8090";
+	//static String URLremota = “http://urlsdispring:xxxx”;
+	
+	
+	
 	@Autowired
 	private UserService userService;
 
@@ -54,8 +61,9 @@ public class MyWallapopTests {
 	@Before
 	public void setUp() {
 		initdb();
-		driver.navigate().to(URL);
+		driver.navigate().to(URLlocal);
 	}
+
 
 	private void initdb() {
 		userRepository.deleteAll();
@@ -237,15 +245,43 @@ public class MyWallapopTests {
 		// CASO 13: , borrar el primer usuario de la lista, comprobar que la lista se
 		// actualiza
 		// y dicho usuario desaparece.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		//23
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'users-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/signup')]");
+		elementos.get(0).click();
+		PO_RegisterView.fillForm(driver, "111111@email.com", "1111","11111","palos", "palos");
 
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/logout')]");
+		elementos.get(0).click();
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'users-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/list')]");
+		elementos.get(0).click();
+		PO_DeleteUser.eliminarPrimero(driver);	
+		SeleniumUtils.textoNoPresentePagina(driver, "user1");
 		// CASO 14: Ir a la lista de usuarios, borrar el último usuario de la lista,
 		// comprobar que la lista se actualiza
 		// y dicho usuario desaparece.
+		PO_DeleteUser.EliminarUltimo(driver);
+		SeleniumUtils.textoNoPresentePagina(driver, "1111");
+
 
 		// CASO 15: Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista
 		// se actualiza y dichos
 		// usuarios desaparecen.
+		PO_DeleteUser.eliminar3(driver);
+		SeleniumUtils.textoNoPresentePagina(driver, "1111");
+		SeleniumUtils.textoNoPresentePagina(driver, "user1");
+		SeleniumUtils.textoNoPresentePagina(driver, "user2");
+		SeleniumUtils.textoNoPresentePagina(driver, "user3");
+
 	}
+
 
 	@Test
 	public void t1estPunto8() {
@@ -315,6 +351,85 @@ public class MyWallapopTests {
 		SeleniumUtils.textoPresentePagina(driver, "Altavoz JBL");
 		SeleniumUtils.textoPresentePagina(driver, "Patinete");
 	}
+
+	@Test
+	public void testPunto9() {
+		//test punto 21
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user1@email.com", "11111");
+
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'article-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/article/list')]");
+		elementos.get(0).click();
+		PO_SearchView.fillForm(driver, "");
+		PO_View.checkElement(driver, "text","");
+		//test 22
+		PO_SearchView.fillForm(driver, "zZzZzZ");
+		PO_View.checkElement(driver, "text","");
+
+	}
+
+	@Test
+	public void testPunto10() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user2@email.com", "11111");
+		//23
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'article-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/article/list')]");
+		elementos.get(0).click();
+		PO_SearchView.fillForm(driver, "palo");
+		PO_View.checkElement(driver, "text","palo");
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/article/buy')]");
+		elementos.get(0).click();
+		//elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/logout')]");
+		SeleniumUtils.esperarSegundos(driver, 3);
+		driver.findElement(By.name("salir")).click();
+
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user1@email.com", "11111");
+		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'money')]/a");
+		PO_MoneyView.CheckMoney(driver, elementos.get(0).getText(),"100.0€");
+
+		//24
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/logout')]");
+		elementos.get(0).click();
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user1@email.com", "11111");
+		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'article-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/article/list')]");
+		elementos.get(0).click();
+		PO_SearchView.fillForm(driver, "movil");
+		PO_View.checkElement(driver, "text","movil");
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/article/buy')]");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'money')]/a");
+		PO_MoneyView.CheckMoney(driver, elementos.get(0).getText(),"0.0€");
+
+		//25
+		PO_SearchView.fillForm(driver, "Redmi Note 7");
+		PO_View.checkElement(driver, "text","Redmi Note 7");
+		//		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/article/buy')]");
+		//		elementos.get(0).click();
+		SeleniumUtils.textoPresentePagina(driver, "Precio");
+	}
+
+	@Test
+	public void testPunto11() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "user2@email.com", "11111");
+		//23
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'article-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/article/yourProducts')]");
+		elementos.get(0).click();
+
+		SeleniumUtils.textoPresentePagina(driver, "Titulo");
+	}
+
+
 
 	@Test
 	public void testPuntoInternacionalizacion() {

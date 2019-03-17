@@ -30,7 +30,7 @@
 						<td th:text="${article.description}"><span th:text="#{artDesc.home}">Descripcion</span></td>
 						<td th:text="${article.price}"><span th:text="#{artPrice.home}">Precio</span></td>
 						<td><a th:if="${article.owner}!=${user}" name="eliminar"
-						th:href="${'/article/delete/' + article.id}"><span
+						th:href="${'/article/buy/' + article.id}"><span
 							th:text="#{comArt.list}">Eliminar</span></a></td>
 					</tr>
 				</tbody>

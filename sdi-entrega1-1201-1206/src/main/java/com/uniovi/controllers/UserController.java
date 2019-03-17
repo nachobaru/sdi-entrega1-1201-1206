@@ -126,9 +126,9 @@ public class UserController {
 	// Prueba para eliminar multiples ususarios
 
 	@RequestMapping(value = "/user/delete", method = RequestMethod.POST)
-	public String deleteMultipleUsers(@RequestParam(required = false) List<Long> listID) {
+	public String deleteMultipleUsers(@RequestParam(required = false) List<Long> eliminar) {
 		List<Long> aux = new ArrayList<Long>();
-		aux = listID;
+		aux = eliminar;
 		for (int i = 0; i < aux.size(); i++) {
 
 			userService.deleteUser(aux.get(i));

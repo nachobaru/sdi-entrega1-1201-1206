@@ -18,7 +18,7 @@ public class UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	@PostConstruct
 	public void init() {
 	}
@@ -28,15 +28,16 @@ public class UserService {
 		userRepository.findAll().forEach(users::add);
 		return users;
 	}
-	
+
 	public User getUser(Long id) {
 		return userRepository.findById(id).get();
 	}
-	
 
 	public User getUserByEmail(String email) {
 		return userRepository.findByEmail(email);
-	}public void addUser(User user) {
+	}
+
+	public void addUser(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 	}
@@ -44,7 +45,7 @@ public class UserService {
 	public void deleteUser(Long id) {
 		userRepository.deleteById(id);
 	}
-	
+
 	public User searchUser(User user) {
 		return userRepository.searchAll(user);
 	}

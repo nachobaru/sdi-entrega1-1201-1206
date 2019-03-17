@@ -24,6 +24,7 @@ import com.uniovi.entities.User;
 import com.uniovi.services.ArticleService;
 import com.uniovi.services.UserService;
 import com.uniovi.validators.AddArticleValidator;
+import com.uniovi.validators.BuyValidator;
 
 @Controller
 public class ArticleController {
@@ -63,35 +64,35 @@ public class ArticleController {
 		return "redirect:/home";
 	}
 
-	@RequestMapping(value="/article/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/article/list", method = RequestMethod.GET)
 	public String getSearch(Model model, Pageable pageable, Principal principal,
 			@RequestParam(required = false) String searchText) {
 		searchText = "%" + searchText + "%";
-		User u= getActiveUser();
-		model.addAttribute("money",u.getPocket());
+		User u = getActiveUser();
+		model.addAttribute("money", u.getPocket());
 		model.addAttribute("user", u);
 		Page<Article> art = new PageImpl<Article>(new LinkedList<Article>());
-		art=articleService.searchAll(pageable, getActiveUser());
-		if ( !searchText.isEmpty()) {
+		art = articleService.searchAll(pageable, getActiveUser());
+		if (!searchText.isEmpty()) {
 			art = articleService.searchByString(pageable, searchText);
 		}
 
-
+		User activeUser = getActiveUser();
 		model.addAttribute("articlesList", art.getContent());
-
+		model.addAttribute("money", activeUser.getPocket());
 		model.addAttribute("page", art);
 		return "/article/list";
 	}
 
-
 	@RequestMapping("/article/list/update")
-	public String updateList(Model model,Pageable pageable, Principal principal) {
+	public String updateList(Model model, Pageable pageable, Principal principal) {
 
 		User activeUser = getActiveUser();
 		model.addAttribute("articlesList", articleService.searchAll(pageable, activeUser));
-		model.addAttribute("user",  activeUser);
+		model.addAttribute("user", activeUser);
 		return "/article/list :: tableArticles";
 	}
+
 	private User getActiveUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
@@ -99,16 +100,18 @@ public class ArticleController {
 		return activeUser;
 	}
 
-	@RequestMapping(value="/article/buy/{id}", method = RequestMethod.POST)
-	public String getBuy(Model model, Pageable pageable, Principal principal, @PathVariable Long id) {
-		User u= getActiveUser();
+	@RequestMapping(value = "/article/buy/{id}", method = RequestMethod.GET)
+	public String getBuy(Model model, Pageable pageable, BindingResult result, Principal principal,
+			@PathVariable Long id) {
+		User u = getActiveUser();
 
-		//Long l=Long.parseLong(id);
-		Article a=articleService.findArticle(id);
+		Article a = articleService.findArticle(id);
 
-		articleService.Comprar(u,a);
+		articleService.Comprar(u, a);
+		User activeUser = getActiveUser();
+		model.addAttribute("money", activeUser.getPocket());
 		model.addAttribute("user", u);
-		return "redirect: /article/list/update";
+		return "/article/list";
 	}
 
 }

@@ -13,8 +13,8 @@
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
 				<li><a href="/home">Home</a></li>
 
-				<li sec:authorize="isAuthenticated()"><a href="/home"
-					th:text="${money} + ' €'">Home</a></li>
+				<li id="money" sec:authorize="isAuthenticated()"><a
+					href="/home" th:text="${money} + ' €'">Home</a></li>
 
 				<li id="article-menu" class="dropdown"><a
 					class="dropdown-toggle" data-toggle="dropdown" href="#"> <span
@@ -92,7 +92,7 @@
 					th:text="#{login.message}"> <span
 						class="glyphicon glyphicon-log-in"></span> Identificate
 				</a></li>
-				<li sec:authorize="isAuthenticated()"><a href="/logout"> <span
+				<li name="salir" sec:authorize="isAuthenticated()"><a href="/logout"> <span
 						class="glyphicon glyphicon-log-out"></span> <span
 						th:text="#{logout.message}">Desconectar</span>
 				</a></li>
