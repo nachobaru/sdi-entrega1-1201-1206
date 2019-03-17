@@ -51,7 +51,6 @@ public class MyWallapopTests {
 		return driver;
 	}
 
-	// Antes de cada prueba se navega al URL home de la aplicaciónn
 	@Before
 	public void setUp() {
 		initdb();
@@ -61,7 +60,7 @@ public class MyWallapopTests {
 	private void initdb() {
 		userRepository.deleteAll();
 
-		User user1 = new User("user1@email.com", "NAcho", "Baru");
+		User user1 = new User("user1@email.com", "Nacho", "Baru");
 		user1.setPassword("11111");
 		user1.setRole("ROLE_STANDARD");
 
@@ -83,23 +82,23 @@ public class MyWallapopTests {
 
 		Article art11 = new Article("palo", "rama", 10);
 		Article art12 = new Article("hoja", "verde lol", 45);
-		Article art13 = new Article("sfg", "vsf", 10);
+		Article art13 = new Article("Redmi Note 7", "movil", 100);
 
-		Article art21 = new Article("dfv", "vdv lol", 78);
-		Article art22 = new Article("dvf", "fvdfvfv lol", 56);
-		Article art23 = new Article("fvddfvd", "dfv lol", 111);
+		Article art21 = new Article("Iphone", "vdv lol", 1000);
+		Article art22 = new Article("Galaxy 10", "movil", 700);
+		Article art23 = new Article("Pocophone", "movil", 500);
 
-		Article art31 = new Article("wefwrerf", "werfwef lol", 98);
-		Article art32 = new Article("wefwefwef", "wefwf lol", 89);
-		Article art33 = new Article("hwefwefweoja", "wefwef lol", 96);
+		Article art31 = new Article("Powerade", "bebida", 1);
+		Article art32 = new Article("Hucha cerdo", "lo dicho.", 20);
+		Article art33 = new Article("Cargador 3.0", "lo dicho lol", 15);
 
-		Article art41 = new Article("howefwefja", "efewf lol", 698);
-		Article art42 = new Article("bdfb", "verqwdqwdde lol", 123);
-		Article art43 = new Article("hwefwefoja", "vewefwefrde lol", 7);
+		Article art41 = new Article("Bateria extrible", "bateria", 698);
+		Article art42 = new Article("Gafas de sol", "asi no t quedas ciego", 123);
+		Article art43 = new Article("Funda movil", "fundita chuli", 7);
 
-		Article art51 = new Article("hoeefja", "verefwefde lol", 5);
-		Article art52 = new Article("hoefwefja", "verefwefde lol", 63);
-		Article art53 = new Article("hfewefoja", "verfwefwefbede lol", 71);
+		Article art51 = new Article("Lampara ikea", "luz loko", 5);
+		Article art52 = new Article("Boli BIC", "ye de oro", 100);
+		Article art53 = new Article("Mochila Dora la Exploradora", "te resuelve tus problemas :)", 1000);
 
 		art11.setOwner(user1);
 		art12.setOwner(user1);
@@ -148,33 +147,27 @@ public class MyWallapopTests {
 		userService.addUser(user5);
 	}
 
-	// Después de cada prueba se borran las cookies del navegador
 	@After
 	public void tearDown() {
 		driver.manage().deleteAllCookies();
-	}// Antes de la primera prueba
+	}
 
 	@BeforeClass
 	static public void begin() {
 	}
 
-	// Al finalizar la última prueba
 	@AfterClass
 	static public void end() {
-		// Cerramos el navegador al finalizar las pruebas
 		driver.quit();
 	}
 
 	@Test
 	public void testPunto1() {
-
-		// Vamos al formulario de registro
-		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		// CASO 4:COmprobamos el error de email repetido.
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		PO_RegisterView.fillForm(driver, "user1@email.com", "Josefo", "Perez", "77777", "77777");
 		PO_View.getP();
 		PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
-		// Rellenamos el formulario.
 		PO_RegisterView.fillForm(driver, "user2@email.com", "Jose", "Perez", "77777", "77777777");
 		// CASO 3: Comprobamos error contraseña no coincide.
 		PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH());
@@ -187,10 +180,8 @@ public class MyWallapopTests {
 
 	@Test
 	public void testPunto2() {
-		// Vamos al formulario de login
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-
 		// CASO 5: datos válidos como admin
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
 		PO_View.getP();
 		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
@@ -234,11 +225,11 @@ public class MyWallapopTests {
 		elementos.get(0).click();
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/list')]");
 		elementos.get(0).click();
-
-		// <WebElement> numeroUsuarios = SeleniumUtils.EsperaCargaPagina(driver, "free",
-		// "//tbody/tr",
-		// PO_View.getTimeout());
-		// assertTrue(numeroUsuarios.size() == 2);
+		SeleniumUtils.textoPresentePagina(driver, "Nacho");
+		SeleniumUtils.textoPresentePagina(driver, "Fer");
+		SeleniumUtils.textoPresentePagina(driver, "Ale");
+		SeleniumUtils.textoPresentePagina(driver, "admin");
+		SeleniumUtils.textoPresentePagina(driver, "Miguel");
 	}
 
 	@Test
@@ -270,6 +261,9 @@ public class MyWallapopTests {
 		elementos.get(0).click();
 		PO_AddArticleView.fillForm(driver, "Prueba eliminar", "suena super guay.", "150.2");
 		SeleniumUtils.textoPresentePagina(driver, "Prueba eliminar");
+		// CASO 19: Ir a la lista de ofertas, borrar la primera oferta de la lista,
+		// comprobar que la lista se actualiza y
+		// que la oferta desaparece
 		driver.findElement(By.name("eliminar")).click();
 	}
 
@@ -329,7 +323,6 @@ public class MyWallapopTests {
 		// de las etiquetas cambian al idioma correspondiente). Página
 		// principal/Opciones Principales de
 		// Usuario/Listado de Usuarios de Admin/Vista de alta de Oferta.
-
 		// pagina principal
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "user1@email.com", "11111");

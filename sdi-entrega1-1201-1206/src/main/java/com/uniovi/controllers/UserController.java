@@ -139,7 +139,7 @@ public class UserController {
 	@RequestMapping("/article/yourProducts")
 	public String productosComprados(Pageable pageable,Model model) {
 		User activeUser = getActiveUser();
-		model.addAttribute("articlesList", activeUser.getArticles());
+		model.addAttribute("articlesList", activeUser.getComprados());
 		model.addAttribute("money", activeUser.getPocket());
 		return "/article/yourProducts";
 	}

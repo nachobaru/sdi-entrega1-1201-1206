@@ -12,8 +12,10 @@
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
 				<li><a href="/home">Home</a></li>
-				<li sec:authorize="hasRole('ROLE_STANDARD')"><a href="/home"
+
+				<li sec:authorize="isAuthenticated()"><a href="/home"
 					th:text="${money} + ' €'">Home</a></li>
+
 				<li id="article-menu" class="dropdown"><a
 					class="dropdown-toggle" data-toggle="dropdown" href="#"> <span
 						th:text="#{artMgmt.nav}">Gestion de Productos</span> <span
@@ -28,8 +30,8 @@
 									Producto</span></a></li>
 						<li><a href="/article/list"><span th:text="#{buyArt.nav}">Comprar
 									Producto</span></a></li>
-						<li><a href="/article/yourProducts"><span th:text="#{youArt.nav}">Productos
-									comprados</span></a></li>
+						<li><a href="/article/yourProducts"><span
+								th:text="#{youArt.nav}">Productos comprados</span></a></li>
 					</ul></li>
 				<li id="users-menu" class="dropdown"
 					sec:authorize="hasRole('ROLE_ADMIN')"><a

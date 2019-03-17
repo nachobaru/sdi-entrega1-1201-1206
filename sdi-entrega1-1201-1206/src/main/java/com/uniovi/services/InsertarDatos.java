@@ -7,35 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Article;
 import com.uniovi.entities.User;
-import com.uniovi.repositories.UserRepository;
 
 @Service
 public class InsertarDatos {
 	@Autowired
 	UserService userService;
-	@Autowired
-	private UserRepository userRepository;
+
 	@PostConstruct
-	public void init() {
-		
-//		User userAdmin = new User("admin@email.com", "admin","admin");
-//		userAdmin.setPassword("admin");
-//		userAdmin.setRole("ROLE_ADMIN");
-//		
-//		User user1 = new User("user1@email.com", "NAcho","Baru");
-//		user1.setPassword("11111");
-//		user1.setRole("ROLE_STANDARD");
-////		
-//////		Article art1= new Article((long)1, "palo", "rama",10);
-//////		Article art2 =new Article((long)2, "hoja", "verde lol",1231450);
-//////		
-//////		user1.setArticles(art1);
-//////		user1.getArticles().add(art1);
-//////		art1.setOwner(user1);
-//////		art2.setOwner(user1);
-//		userService.addUser(userAdmin);
-//		userService.addUser(user1);
-		
+	public void init() {		
 		User user1 = new User("user1@email.com", "NAcho", "Baru");
 		user1.setPassword("11111");
 		user1.setRole("ROLE_STANDARD");
@@ -56,25 +35,26 @@ public class InsertarDatos {
 		user5.setPassword("admin");
 		user5.setRole("ROLE_STANDARD");
 
+
 		Article art11 = new Article("palo", "rama", 10);
 		Article art12 = new Article("hoja", "verde lol", 45);
-		Article art13 = new Article("sfg", "vsf", 10);
+		Article art13 = new Article("Redmi Note 7", "movil", 100);
 
-		Article art21 = new Article("dfv", "vdv lol", 78);
-		Article art22 = new Article("dvf", "fvdfvfv lol", 56);
-		Article art23 = new Article("fvddfvd", "dfv lol", 111);
+		Article art21 = new Article("Iphone", "vdv lol", 1000);
+		Article art22 = new Article("Galaxy 10", "movil", 700);
+		Article art23 = new Article("Pocophone", "movil", 500);
 
-		Article art31 = new Article("wefwrerf", "werfwef lol", 98);
-		Article art32 = new Article("wefwefwef", "wefwf lol", 89);
-		Article art33 = new Article("hwefwefweoja", "wefwef lol", 96);
+		Article art31 = new Article("Powerade", "bebida", 1);
+		Article art32 = new Article("Hucha cerdo", "lo dicho.", 20);
+		Article art33 = new Article("Cargador 3.0", "lo dicho lol", 15);
 
-		Article art41 = new Article("howefwefja", "efewf lol", 698);
-		Article art42 = new Article("bdfb", "verqwdqwdde lol", 123);
-		Article art43 = new Article("hwefwefoja", "vewefwefrde lol", 7);
+		Article art41 = new Article("Bateria extrible", "bateria", 698);
+		Article art42 = new Article("Gafas de sol", "asi no t quedas ciego", 123);
+		Article art43 = new Article("Funda movil", "fundita chuli", 7);
 
-		Article art51 = new Article("hoeefja", "verefwefde lol", 5);
-		Article art52 = new Article("hoefwefja", "verefwefde lol", 63);
-		Article art53 = new Article("hfewefoja", "verfwefwefbede lol", 71);
+		Article art51 = new Article("Lampara ikea", "luz loko", 5);
+		Article art52 = new Article("Boli BIC", "ye de oro", 100);
+		Article art53 = new Article("Mochila Dora la Exploradora", "te resuelve tus problemas :)", 1000);
 
 		art11.setOwner(user1);
 		art12.setOwner(user1);

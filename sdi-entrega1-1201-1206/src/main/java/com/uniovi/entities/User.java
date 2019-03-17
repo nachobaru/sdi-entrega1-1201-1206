@@ -1,6 +1,7 @@
 package com.uniovi.entities;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,6 +28,7 @@ public class User {
 	private String email;
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	Set<Article> articles;
+	List<Article>comprados;
 	
 	
 	public User(String email, String name, String lastName) {
@@ -122,6 +124,12 @@ public class User {
 	
 	public void addArticle(Article art) {
 		articles.add(art);
+	}
+	public List<Article> getComprados() {
+		return comprados;
+	}
+	public void setComprados(Article article) {
+		this.comprados.add(article);
 	}
 	
 	
