@@ -24,7 +24,7 @@ import com.uniovi.entities.User;
 import com.uniovi.services.ArticleService;
 import com.uniovi.services.UserService;
 import com.uniovi.validators.AddArticleValidator;
-import com.uniovi.validators.BuyValidator;
+
 
 @Controller
 public class ArticleController {
