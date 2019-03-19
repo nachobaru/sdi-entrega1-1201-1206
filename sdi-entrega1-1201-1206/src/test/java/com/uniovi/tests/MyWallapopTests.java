@@ -383,10 +383,7 @@ public class MyWallapopTests {
 		PO_View.checkElement(driver, "text","palo");
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/article/buy')]");
 		elementos.get(0).click();
-		//elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/logout')]");
-		SeleniumUtils.esperarSegundos(driver, 3);
-		driver.findElement(By.name("salir")).click();
-
+		driver.navigate().to(URLlocal);
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "user1@email.com", "11111");
 		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'money')]/a");
