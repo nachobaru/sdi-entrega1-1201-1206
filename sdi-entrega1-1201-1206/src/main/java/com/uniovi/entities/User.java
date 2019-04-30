@@ -1,8 +1,6 @@
 package com.uniovi.entities;
 
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,9 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 @Entity
 public class User {
 

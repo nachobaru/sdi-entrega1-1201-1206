@@ -1,9 +1,9 @@
 package com.uniovi.tests.utils;
 
 
-import java.util.List;
+import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.*;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
